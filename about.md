@@ -6,12 +6,15 @@ title: About
 ## Aminat Adefolu
 Aminat is currently pursuing her doctoral degree in a field related to applied statistics and data science. Her educational background includes a bachelor’s degree in mathematics and statistics, master’s degree in data analytics, where she developed a strong foundation in programming and data analysis. With a passion for using data to drive social change, she has actively engaged in research projects that involve leveraging data science techniques to address real-world problems.
 
-## Brian Leung
+<div class="row">
+  <div class="column">## Brian Leung
 
 **Ph.D. Candidate, Department of Political Science**\
 *University of Washington*
+</div>
+  <div class="column"><img src="{{ site.url }}{{ site.baseurl }}/assets/img/Leung_photo23.jpg"  style="height:400px;"></div>
+</div>
 
-<img src="{{ site.url }}{{ site.baseurl }}/assets/img/Leung_photo23.jpg"  style="height:400px;">
 
 Brian Leung is a PhD student in the Department of Political Science at the University of Washington. His research interests include the political economy of industrial policy, supply chain and reshoring in emerging technologies, and violence and repression in authoritarian regimes. He is also interested in a wide range of quantitative methods, particularly causal inference, survey experiments, and quantitative text analysis. Born and raised in Hong Kong, he received his Bachelor of Social Sciences and Bachelor of Laws from the University of Hong Kong in 2017. 
 
