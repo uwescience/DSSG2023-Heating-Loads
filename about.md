@@ -15,7 +15,7 @@ Katherine Grisanzio
 
 Silas Gifford
 
-<img src="{{ site.url }}{{ site.baseurl }}/assets/img/Gifford-Silas-Headshot.png">
+<img src="{{ site.url }}{{ site.baseurl }}/assets/img/Gifford-Silas-Headshot.jpg">
 
 Brian Leung
 Aminat Adefolu
