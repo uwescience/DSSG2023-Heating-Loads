@@ -9,7 +9,7 @@ title:            Heat Pumps in Alaska
 tagline:          'Get pumped!'
 description:      'A 2023 Data Science for Social Good summer fellowship project at the University of Washington' 
 url:              "https://uwescience.github.io"
-baseurl:          "/DSSG-website-template"
+baseurl:          "/DSSG2023-Heating-Loads"
 
 
 paginate:         5
