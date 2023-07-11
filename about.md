@@ -10,6 +10,7 @@ Team Photo
 Individual Bios
 
 Katherine Grisanzio
+<img src="{{ site.url }}{{ site.baseurl }}/assets/img/katherine.jpg">
 Silas Gifford
 Brian Leung
 Aminat Adefolu
