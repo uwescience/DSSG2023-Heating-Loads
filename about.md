@@ -9,7 +9,7 @@ Aminat is currently pursuing her doctoral degree in a field related to applied s
 ## Brian Leung
 **Ph.D. Candidate, Department of Political Science**
 *University of Washington*
-<img src="{{ site.url }}{{ site.baseurl }}/assets/img/Leung_photo23.jpg" style="width:250px;height:300px;">
+<img src="{{ site.url }}{{ site.baseurl }}/assets/img/Leung_photo23.jpg"  style="height:500px;">
 
 Brian Leung is a PhD student in the Department of Political Science at the University of Washington. His research interests include the political economy of industrial policy, supply chain and reshoring in emerging technologies, and violence and repression in authoritarian regimes. He is also interested in a wide range of quantitative methods, particularly causal inference, survey experiments, and quantitative text analysis. Born and raised in Hong Kong, he received his Bachelor of Social Sciences and Bachelor of Laws from the University of Hong Kong in 2017. 
 
