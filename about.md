@@ -3,12 +3,6 @@ layout: page
 title: About
 ---
 
-### About
-
-Team Photo
-
-Individual Bios
-
 ## Aminat Adefolu
 Aminat is currently pursuing her doctoral degree in a field related to applied statistics and data science. Her educational background includes a bachelor’s degree in mathematics and statistics, master’s degree in data analytics, where she developed a strong foundation in programming and data analysis. With a passion for using data to drive social change, she has actively engaged in research projects that involve leveraging data science techniques to address real-world problems.
 
@@ -27,8 +21,11 @@ Brian Leung is a PhD student in the Department of Political Science at the Unive
 Katherine received her B.S. in Psychology from Boston College, then spent four years as a Lab Manager in the Psychiatry Department at Stanford University. Now, she is a PhD student in the Cognition, Brain, & Behavior program with a secondary field in Data Science at Harvard University. Katherine’s research focuses on leveraging behavioral, longitudinal, and neuroimaging techniques to characterize emotional experiences across adolescent development and identify critical brain-behavior relationships during this transitional age period.
 
 ## Silas Gifford
+
 **Masters Student, School of Information**
+
 *University of California, Berkely*
+
 <img src="{{ site.url }}{{ site.baseurl }}/assets/img/Gifford-Silas-Headshot.jpg">
 Silas Gifford believes in the transformative power of data science for new fields and applications and is particularly interested in the intersection of the environment, society, and machine learning. Since summer 2021, Silas has been working on a proof of concept project for monitoring seals at Point Reyes National Seashore using deep learning and aerial imagery. Silas is a Golden Bear through and through, having completed an undergraduate degree in Data Science at UC Berkeley and is now working towards a Master of Information and Data Science degree from the School of Information.
 
