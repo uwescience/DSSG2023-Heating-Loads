@@ -5,7 +5,7 @@ title: About
 
 ## Aminat Adefolu
 
-**Ph.D. Candidate, Department of Statistics, Data Science and Actuary**
+**Ph.D. Candidate, Department of Statistics, Data Science and Actuary**\
 *Central Michigan University*
 <img src="{{ site.url }}{{ site.baseurl }}/assets/img/Adefolu-Aminat-Headshot.jpg" style="height:400px;">
 
