@@ -7,6 +7,7 @@ title: About
 
 **Ph.D. Candidate, Department of Statistics, Data Science and Actuary**\
 *Central Michigan University*
+
 <img src="{{ site.url }}{{ site.baseurl }}/assets/img/Adefolu-Aminat-Headshot.jpg" style="height:400px;">
 
 Aminat is currently pursuing her doctoral degree in a field related to applied statistics and data science. Her educational background includes a bachelor’s degree in mathematics and statistics, master’s degree in data analytics, where she developed a strong foundation in programming and data analysis. With a passion for using data to drive social change, she has actively engaged in research projects that involve leveraging data science techniques to address real-world problems.
