@@ -17,8 +17,7 @@ Brian Leung is a PhD student in the Department of Political Science at the Unive
 
 ## Katherine Grisanzio
 
-**Ph.D. Candidate, Department of Psychology**
-
+**Ph.D. Candidate, Department of Psychology**\
 *Harvard University*
 
 <img src="{{ site.url }}{{ site.baseurl }}/assets/img/katherine.jpg"  style="height:400px;">
@@ -27,11 +26,11 @@ Katherine received her B.S. in Psychology from Boston College, then spent four y
 
 ## Silas Gifford
 
-**Masters Student, School of Information**
-
+**Masters Student, School of Information**\
 *University of California, Berkely*
 
 <img src="{{ site.url }}{{ site.baseurl }}/assets/img/Gifford-Silas-Headshot.jpg"  style="height:400px;">
+
 Silas Gifford believes in the transformative power of data science for new fields and applications and is particularly interested in the intersection of the environment, society, and machine learning. Since summer 2021, Silas has been working on a proof of concept project for monitoring seals at Point Reyes National Seashore using deep learning and aerial imagery. Silas is a Golden Bear through and through, having completed an undergraduate degree in Data Science at UC Berkeley and is now working towards a Master of Information and Data Science degree from the School of Information.
 
 
