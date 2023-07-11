@@ -23,11 +23,9 @@ Aminat is currently pursuing her doctoral degree in a field related to applied s
 Brian Leung is a PhD student in the Department of Political Science at the University of Washington. His research interests include the political economy of industrial policy, supply chain and reshoring in emerging technologies, and violence and repression in authoritarian regimes. He is also interested in a wide range of quantitative methods, particularly causal inference, survey experiments, and quantitative text analysis. Born and raised in Hong Kong, he received his Bachelor of Social Sciences and Bachelor of Laws from the University of Hong Kong in 2017. 
 
 ## Katherine Grisanzio
-<img src="{{ site.url }}{{ site.baseurl }}/assets/img/katherine.jpg">
-
 **Ph.D. Candidate, Department of Psychology**
-
 *Harvard University*
+<img src="{{ site.url }}{{ site.baseurl }}/assets/img/katherine.jpg">
 
 Katherine received her B.S. in Psychology from Boston College, then spent four years as a Lab Manager in the Psychiatry Department at Stanford University. Now, she is a PhD student in the Cognition, Brain, & Behavior program with a secondary field in Data Science at Harvard University. Katherine’s research focuses on leveraging behavioral, longitudinal, and neuroimaging techniques to characterize emotional experiences across adolescent development and identify critical brain-behavior relationships during this transitional age period.
 
