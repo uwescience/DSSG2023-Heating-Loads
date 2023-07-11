@@ -8,7 +8,7 @@ Aminat is currently pursuing her doctoral degree in a field related to applied s
 
 ## Brian Leung
 
-**Ph.D. Candidate, Department of Political Science** \newline
+**Ph.D. Candidate, Department of Political Science**\
 *University of Washington*
 
 <img src="{{ site.url }}{{ site.baseurl }}/assets/img/Leung_photo23.jpg"  style="height:400px;">
