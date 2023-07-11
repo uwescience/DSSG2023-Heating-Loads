@@ -24,6 +24,11 @@ Brian Leung is a PhD student in the Department of Political Science at the Unive
 
 ## Katherine Grisanzio
 <img src="{{ site.url }}{{ site.baseurl }}/assets/img/katherine.jpg">
+
+**Ph.D. Candidate, Department of Psychology**
+
+*Harvard University*
+
 Katherine received her B.S. in Psychology from Boston College, then spent four years as a Lab Manager in the Psychiatry Department at Stanford University. Now, she is a PhD student in the Cognition, Brain, & Behavior program with a secondary field in Data Science at Harvard University. Katherine’s research focuses on leveraging behavioral, longitudinal, and neuroimaging techniques to characterize emotional experiences across adolescent development and identify critical brain-behavior relationships during this transitional age period.
 
 ## Silas Gifford
