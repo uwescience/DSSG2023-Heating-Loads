@@ -10,7 +10,8 @@ p_load("ggplot2",
        "useful",
        "plotly",
        "sf",
-       "shiny")
+       "shiny",
+       "shinydashboard")
 
 ##---------Generate tilegrams for each borough-------
 
@@ -468,7 +469,7 @@ levels(factor(all_grids$name)) # AK figure boroughs
 
 # Kusilvak Census Area is in the AK figure boroughs but not 2010 boroughs
 # Wade-Hampton is in 2010 boroughs but not AK figure
-# OH! Kusilav is formerly known as Wade-Hampton! We'll re-name Wade Hampton
+# OH! Kusilvak is formerly known as Wade-Hampton! We'll re-name Wade Hampton
 base_df[which(base_df$Census_Area == "Wade Hampton Census Area"), "Census_Area"] <- "Kusilvak Census Area"
 medfuel_df[which(medfuel_df$Census_Area == "Wade Hampton Census Area"), "Census_Area"] <- "Kusilvak Census Area"
 highfuel_df[which(highfuel_df$Census_Area == "Wade Hampton Census Area"), "Census_Area"] <- "Kusilvak Census Area"
@@ -546,7 +547,7 @@ merged_highfueldf_polygonSF <- st_as_sf(merged_highfueldf_polygon)              
 #                                    "Dillingham Census Area", "Fairbanks North Star Borough",     
 #                                    "Haines Borough") # left off here
 
-# Base
+# Base - NPV
 g <- ggplot() +
   geom_tile(data = merged_basedf, aes(y = -row, x = col, fill = mean_NPV, text = sprintf("Borough: %s<br>Net Present Value: %s<br>", name, round(mean_NPV))), color = 'white') +
   geom_sf(data = merged_basedf_polygonSF, size = 1, fill = NA, color = 'black') +
@@ -554,12 +555,14 @@ g <- ggplot() +
   scale_fill_viridis_c(option = "B", direction = -1, limits=c(9000,60000)) +
   labs(fill = 'Economic Feasibility') +
   #geom_sf_text(data = merged_grid_npv_polygonSF, aes(label = name2)) +
-  theme_void()
+  theme_void() +
+  xlim(c(0,52)) +
+  ylim(c(-41,0)) +
+  theme(plot.margin=unit(c(0,0,0,0),"mm"))
 g_int <- ggplotly(g, width = 600, height = 700, # ggplotly returns a plotly object 
-         tooltip = c("text")) %>%
+         tooltip = c("text"))
 
-
-# Medium fuel
+# Medium fuel - NPV
 g1 <- ggplot() +
   geom_tile(data = merged_medfueldf, aes(y = -row, x = col, fill = mean_NPV, text = sprintf("Borough: %s<br>Net Present Value: %s<br>", name, round(mean_NPV))), color = 'white') +
   geom_sf(data = merged_medfueldf_polygonSF, size = 1, fill = NA, color = 'black') +
@@ -571,7 +574,7 @@ g1 <- ggplot() +
 g1_int <- ggplotly(g1, width = 600, height = 700, 
                   tooltip = c("text")) 
 
-# High fuel
+# High fuel - NPV
 g2 <- ggplot() +
   geom_tile(data = merged_highfueldf, aes(y = -row, x = col, fill = mean_NPV, text = sprintf("Borough: %s<br>Net Present Value: %s<br>", name, round(mean_NPV))), color = 'white') +
   geom_sf(data = merged_highfueldf_polygonSF, size = 1, fill = NA, color = 'black') +
@@ -582,6 +585,44 @@ g2 <- ggplot() +
   theme_void()
 g2_int <- ggplotly(g2, width = 600, height = 700,
                    tooltip = c("text")) 
+
+
+# Base - CO2
+g_co2 <- ggplot() +
+  geom_tile(data = merged_basedf, aes(y = -row, x = col, fill = mean_co2, text = sprintf("Borough: %s<br>Net Present Value: %s<br>", name, round(mean_NPV))), color = 'white') +
+  geom_sf(data = merged_basedf_polygonSF, size = 1, fill = NA, color = 'black') +
+  #scale_fill_gradient(low = "lightblue", high = "darkblue", guide = "legend") +
+  scale_fill_viridis_c(option = "B", direction = -1) + #limits = c(X,X)
+  labs(fill = 'Carbon Dioxide Saved') +
+  #geom_sf_text(data = merged_grid_npv_polygonSF, aes(label = name2)) +
+  theme_void()
+g_co2_int <- ggplotly(g_co2, width = 600, height = 700, # ggplotly returns a plotly object 
+                  tooltip = c("text"))
+
+# Med fuel - CO2
+g_medfuel_co2 <- ggplot() +
+  geom_tile(data = merged_medfueldf, aes(y = -row, x = col, fill = mean_co2, text = sprintf("Borough: %s<br>Net Present Value: %s<br>", name, round(mean_NPV))), color = 'white') +
+  geom_sf(data = merged_medfueldf_polygonSF, size = 1, fill = NA, color = 'black') +
+  #scale_fill_gradient(low = "lightblue", high = "darkblue", guide = "legend") +
+  scale_fill_viridis_c(option = "B", direction = -1) + #limits = c(X,X)
+  labs(fill = 'Carbon Dioxide Saved') +
+  #geom_sf_text(data = merged_grid_npv_polygonSF, aes(label = name2)) +
+  theme_void()
+g_medfuel_co2_int <- ggplotly(g_medfuel_co2, width = 600, height = 700, # ggplotly returns a plotly object 
+                      tooltip = c("text"))
+
+# High fuel - CO2
+g_highfuel_co2 <- ggplot() +
+  geom_tile(data = merged_highfueldf, aes(y = -row, x = col, fill = mean_co2, text = sprintf("Borough: %s<br>Net Present Value: %s<br>", name, round(mean_NPV))), color = 'white') +
+  geom_sf(data = merged_highfueldf_polygonSF, size = 1, fill = NA, color = 'black') +
+  #scale_fill_gradient(low = "lightblue", high = "darkblue", guide = "legend") +
+  scale_fill_viridis_c(option = "B", direction = -1) + #limits = c(X,X)
+  labs(fill = 'Carbon Dioxide Saved') +
+  #geom_sf_text(data = merged_grid_npv_polygonSF, aes(label = name2)) +
+  theme_void()
+g_highfuel_co2_int <- ggplotly(g_highfuel_co2, width = 600, height = 700, # ggplotly returns a plotly object 
+                              tooltip = c("text"))
+
 
 # Shiny
 ui <- fluidPage(
@@ -647,7 +688,7 @@ server <- shinyServer(function(input, output, session) {
 
 
 ui <-  shinyUI(fluidPage(
-  navbarPage(title=" ",
+  navbarPage(title="",
              tabPanel("Economic Feasibility",
                       sidebarLayout(
                         sidebarPanel(
@@ -657,5 +698,389 @@ ui <-  shinyUI(fluidPage(
   ,  fluid=TRUE))
 
 shinyApp(ui=ui, server=server)
+
+
+# Multiple panels
+
+ui <-  shinyUI(fluidPage(
+  navbarPage(title="",
+             tabPanel("Economic Feasibility",
+                      sidebarLayout(
+                        sidebarPanel(
+                          radioButtons("PlotChoice1", "Displayed plot:", 
+                                       choices = c("Base Scenario", "Medium Fuel Price Increases", "High Fuel Price Increases"))),
+                        mainPanel(plotlyOutput("SelectedPlot1")))),
+             tabPanel("Greenness",
+                      sidebarLayout(
+                        sidebarPanel(
+                          radioButtons("PlotChoice2", "Displayed plot:", 
+                                       choices = c("Base Scenario", "Medium Fuel Price Increases", "High Fuel Price Increases"))),
+                        mainPanel(plotlyOutput("SelectedPlot2")))),
+             tabPanel("Technical Feasibility",
+                      sidebarLayout(
+                        sidebarPanel(
+                          radioButtons("PlotChoice3", "Displayed plot:", 
+                                       choices = c("Base Scenario", "Medium Fuel Price Increases", "High Fuel Price Increases"))),
+                        mainPanel(plotlyOutput("SelectedPlot3")))))
+  ,  fluid=TRUE))
+
+server <- shinyServer(function(input, output, session) {
+  
+  your_plot1 <- reactive({
+    if(input$PlotChoice1 == "Base Scenario") {
+      g_int
+    }
+    else if (input$PlotChoice1 == "Medium Fuel Price Increases"){
+      g1_int
+    }
+    else if (input$PlotChoice1 == "High Fuel Price Increases"){
+      g2_int
+    }
+  })
+  
+  your_plot2 <- reactive({
+    if(input$PlotChoice2 == "Base Scenario") {
+      g_int
+    }
+    else if (input$PlotChoice2 == "Medium Fuel Price Increases"){
+      g1_int
+    }
+    else if (input$PlotChoice2 == "High Fuel Price Increases"){
+      g2_int
+    }
+  })
+  
+  your_plot3 <- reactive({
+    if(input$PlotChoice3 == "Base Scenario") {
+      g_int
+    }
+    else if (input$PlotChoice3 == "Medium Fuel Price Increases"){
+      g1_int
+    }
+    else if (input$PlotChoice3 == "High Fuel Price Increases"){
+      g2_int
+    }
+  })
+  
+  output$SelectedPlot1 <- renderPlotly({ 
+    your_plot1()
+  })
+  
+  output$SelectedPlot2 <- renderPlotly({ 
+    your_plot2()
+  })
+  
+  output$SelectedPlot3 <- renderPlotly({ 
+    your_plot3()
+  })
+})
+
+shinyApp(ui=ui, server=server)
+
+
+# Sliders instead of buttons
+
+ui <-  shinyUI(fluidPage(
+  navbarPage(title="",
+             tabPanel("Economic Feasibility",
+                      sidebarLayout(
+                        sidebarPanel(
+                          sliderInput("PlotChoice1", "Predicted Fuel Price Increases: Baseline----------Medium----------High", 
+                                      min = 1, max = 3, value = 1, step = 1),
+                          sliderInput("PlotChoice1a", "Predicted Rebate Amounts:",
+                                      min = 1, max = 3, value = 1, step = 1),
+                          sliderInput("PlotChoice1b", "Predicted Global Warming:",
+                                      min = 1, max = 3, value = 1, step = 1)),
+                        mainPanel(plotlyOutput("SelectedPlot1")))),
+             tabPanel("Greenness",
+                      sidebarLayout(
+                        sidebarPanel(
+                          sliderInput("PlotChoice2", "Predicted Fuel Price Increases: Baseline----------Medium----------High", 
+                                      min = 1, max = 3, value = 1, step = 1),
+                          sliderInput("PlotChoice2a", "Predicted Rebate Amounts:",
+                                      min = 1, max = 3, value = 1, step = 1),
+                          sliderInput("PlotChoice2b", "Predicted Global Warming:",
+                                      min = 1, max = 3, value = 1, step = 1)),
+                        mainPanel(plotlyOutput("SelectedPlot2")))),
+             tabPanel("Technical Feasibility",
+                      sidebarLayout(
+                        sidebarPanel(
+                          sliderInput("PlotChoice3", "Predicted Fuel Price Increases: Baseline----------Medium----------High", 
+                                      min = 1, max = 3, value = 1, step = 1),
+                          sliderInput("PlotChoice3a", "Predicted Rebate Amounts:",
+                                      min = 1, max = 3, value = 1, step = 1),
+                          sliderInput("PlotChoice3b", "Predicted Global Warming:",
+                                      min = 1, max = 3, value = 1, step = 1)),
+                        mainPanel(plotlyOutput("SelectedPlot3")))))
+  ,  fluid=TRUE))
+
+server <- shinyServer(function(input, output, session) {
+  
+  your_plot1 <- reactive({
+    if(input$PlotChoice1 == 1) {
+      g_int
+    }
+    else if (input$PlotChoice1 == 2){
+      g1_int
+    }
+    else if (input$PlotChoice1 == 3){
+      g2_int
+    }
+  })
+  
+  your_plot2 <- reactive({
+    if(input$PlotChoice2 == 1) {
+      g_int
+    }
+    else if (input$PlotChoice2 == 2){
+      g1_int
+    }
+    else if (input$PlotChoice2 == 3){
+      g2_int
+    }
+  })
+  
+  your_plot3 <- reactive({
+    if(input$PlotChoice3 == 1) {
+      g_int
+    }
+    else if (input$PlotChoice3 == 2){
+      g1_int
+    }
+    else if (input$PlotChoice3 == 3){
+      g2_int
+    }
+  })
+  
+  output$SelectedPlot1 <- renderPlotly({ 
+    your_plot1()
+  })
+  
+  output$SelectedPlot2 <- renderPlotly({ 
+    your_plot2()
+  })
+  
+  output$SelectedPlot3 <- renderPlotly({ 
+    your_plot3()
+  })
+})
+
+shinyApp(ui=ui, server=server)
+
+
+
+# Shiny dashboard
+
+ui <- dashboardPage(skin = "blue",
+  dashboardHeader(title = HTML("<b>Heat Pumps in Alaska</b>"), titleWidth = 250),
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Statewide Visualizations", tabName = "statewide", icon = icon("dashboard")),
+      menuItem("Visualizations by Borough", tabName = "borough", icon = icon("th")),
+      menuItem("Visualizations by Census Block", tabName = "block", icon = icon("th"))
+    )
+  ),
+  dashboardBody(
+    # Boxes need to be put in a row (or column)
+    tabItems(
+      # First tab content
+      tabItem(tabName = "statewide",
+              fluidRow(
+                box(title = HTML("<b>Heat Pump Adoption Rates</b>"), solidHeader = TRUE,
+                    "Toggle between current heat pump estimates, moderate projections, and aggressive projections", 
+                    ticks = FALSE, sliderInput("slider", "Current -- Moderate -- Aggressive", 1, 3, 1), width = 12),
+                valueBoxOutput("moneysaved"),
+                valueBoxOutput("co2saved"),
+                valueBoxOutput("heatingdays"),
+                box(plotOutput("plot1"), width = 12)
+              )
+      ),
+      # Second tab content
+      tabItem(tabName = "borough",
+              fluidRow(
+                box(title = HTML("<b>Fuel Price Increase Projections</b>"), solidHeader = TRUE,
+                    "Toggle between current fuel prices, medium increases in projected fuel prices, and large increases in projected fuel prices", 
+                    ticks = FALSE, sliderInput("slider", "Current -- Medium -- Large", 1, 3, 1), width = 4, height = 250),
+                box(title = HTML("<b>Rebate Projections</b>"), solidHeader = TRUE,
+                    "Toggle between currently provided rebates, medium increases in projected rebates, and large increases in projected rebates", 
+                    ticks = FALSE, sliderInput("slider", "Current -- Medium -- Large", 1, 3, 1), width = 4, height = 250),
+                box(title = HTML("<b>Climate Change Projections</b>"), solidHeader = TRUE,
+                    "Toggle between current climate conditions, medium increases in projected temperature increases, and large increases in projected temperature increases", 
+                    ticks = FALSE, sliderInput("slider", "Current -- Medium -- Large", 1, 3, 1), width = 4, height = 250),
+                box(plotlyOutput("plot2"), width = 12)
+              )
+      ),
+      tabItem(tabName = "block",
+              h2("Block vis here")
+      )
+    ),
+  )
+)
+
+
+server <- function(input, output) {
+  
+  valuebox1 <- reactive({
+    if(input$slider == 1) {
+      valueBox(10000, "Total $ Saved", icon = icon("dollar-sign"), color = 'blue', width=4)
+    }
+    else if (input$slider == 2){
+      valueBox(20000, "Total $ Saved", icon = icon("dollar-sign"), color = 'blue', width=4)
+    }
+    else if (input$slider == 3){
+      valueBox(30000, "Total $ Saved", icon = icon("dollar-sign"), color = 'blue', width=4)
+    }
+  })
+  
+  valuebox2 <- reactive({
+    if(input$slider == 1) {
+      valueBox(35000, "Total lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=4)
+    }
+    else if (input$slider == 2){
+      valueBox(45000, "Total lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=4)
+    }
+    else if (input$slider == 3){
+      valueBox(55000, "Total lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=4)
+    }
+  })
+  
+  valuebox3 <- reactive({
+    if(input$slider == 1) {
+      valueBox(3500, "Total # Days of Heat Provided", icon = icon("fire"), color = 'red', width=4)
+    }
+    else if (input$slider == 2){
+      valueBox(4500, "Total # Days of Heat Provided", icon = icon("fire"), color = 'red', width=4)
+    }
+    else if (input$slider == 3){
+      valueBox(5500, "Total # Days of Heat Provided", icon = icon("fire"), color = 'red', width=4)
+    }
+  })
+  
+  your_plot <- reactive({
+    if(input$slider == 1) {
+      plot(cur_totalprop)
+    }
+    else if (input$slider == 2){
+      plot(p2_totalprop)
+    }
+    else if (input$slider == 3){
+      plot(p15_totalprop)
+    }
+  })
+  
+  output$plot1 <- renderPlot({
+    your_plot()
+  })
+  
+  output$plot2 <- renderPlotly({
+    g_int
+  })
+  
+  output$moneysaved <- renderValueBox({
+    valuebox1()
+  })
+  
+  output$co2saved <- renderValueBox({
+    valuebox2()
+  })
+  
+  output$heatingdays <- renderValueBox({
+    valuebox3()
+  })
+  
+}
+
+
+shinyApp(ui, server)
+
+# https://fontawesome.com/search?q=heat&o=r
+# "Box content here", br(), "More box content"
+
+
+
+
+### Figure for 2% HP adoption by borough
+cop_df <- read.csv('exploreCOP.csv')
+head(merged_basedf)
+names(cop_df)[7] <- 'name'
+vis_test <- merge(cop_df, merged_basedf, by = 'name')
+
+vis_test_raster <- 
+  vis_test %>%
+  mutate(name2 = as.integer(factor(name))) %>% # coerce name into integer-factor
+  mutate(row = -row) %>%
+  dplyr::select(col, row, name2)               # select X, Y (for coords), Z (for value)
+
+vis_test_raster <- rasterFromXYZ(vis_test_raster)       # turn to raster 
+vis_test_polygon <- rasterToPolygons(vis_test_raster, dissolve = TRUE)  # turn to polygon 
+vis_test_polygonSF <- st_as_sf(vis_test_polygon)                        # turn to sf object
+
+
+twoperc_plot <- ggplot() +
+  geom_tile(data = vis_test, aes(y = -row, x = col, fill = distributed_2p), color = 'white') +
+  geom_sf(data = vis_test_polygonSF, size = 1, fill = NA, color = 'black') +
+  #scale_fill_gradient(low = "lightblue", high = "darkblue", guide = "legend") +
+  scale_fill_viridis_c(option = "B", direction = -1) +
+  labs(title = "2% Heat Pump Adoption Adjusted by Feasibility per Borough", fill = 'No. of Installed Heat Pumps') +
+  #geom_sf_text(data = merged_grid_npv_polygonSF, aes(label = name2)) +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+naive_proj_df <- read.csv('naive_projections.csv')
+head(naive_proj_df)
+names(naive_proj_df)[2] <- 'name'
+vistest2 <- merge(naive_proj_df, merged_basedf, by = 'name')
+vistest2[which(vistest2$hp_15p_proportion > 1), "hp_15p_proportion"] <- 1
+
+ggplot() +
+  geom_tile(data = vistest2, aes(y = -row, x = col, fill = hp_15p), color = 'white') +
+  #geom_sf(data = vis_test_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, 3400)) +
+  labs(title = "15% Heat Pump Adoption", fill = '# Houses with HP Installed') +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# current_hp, hp_2p, hp_15p
+
+
+# Should be only one we need
+first_proj <- read.csv('first_projections.csv')
+head(first_proj)
+names(first_proj)[2] <- 'name'
+proj_df <- merge(first_proj, merged_basedf, by = 'name')
+proj_df_raster <- 
+  proj_df %>%
+  mutate(name2 = as.integer(factor(name))) %>% # coerce name into integer-factor
+  mutate(row = -row) %>%
+  dplyr::select(col, row, name2)               # select X, Y (for coords), Z (for value)
+
+proj_df_raster <- rasterFromXYZ(proj_df_raster)       # turn to raster 
+proj_df_polygon <- rasterToPolygons(proj_df_raster, dissolve = TRUE)  # turn to polygon 
+proj_df_polygonSF <- st_as_sf(proj_df_polygon)                        # turn to sf object
+
+cur_totalprop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = current_hp/326200), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
+  labs(title = "Current Heat Pump Adoption", fill = 'Prop Houses with HP Installed') +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+p2_totalprop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_2p_total_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
+  labs(title = "2% Projected Heat Pump Adoption", fill = 'Prop Houses with HP Installed') +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+p15_totalprop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_total_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
+  labs(title = "15% Projected Heat Pump Adoption", fill = 'Prop Houses with HP Installed') +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
 
 
