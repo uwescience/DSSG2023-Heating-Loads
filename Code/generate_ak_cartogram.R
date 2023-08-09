@@ -24,6 +24,7 @@ ketch_grid <- data.frame(
   col = c(2, 3, 4, 3, 2, 1, 5, 4, 3, 2, 5, 5, 4, 3, 2, 4, 5, 4, 3),
   stringsAsFactors = FALSE
 )
+
 ketch_grid$name <- "Ketchikan Gateway Borough"
 geofacet::grid_preview(ketch_grid)
 
@@ -116,6 +117,7 @@ valdez_grid <- data.frame(
 )
 valdez_grid$name <- "Valdez-Cordova Census Area"
 geofacet::grid_preview(valdez_grid)
+
 # TO ADDRESS: we have no matching borough in our 2020 census data
 
 # Adjust location of each grid, with Ketchikan as reference
