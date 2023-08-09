@@ -11,7 +11,8 @@ p_load("ggplot2",
        "plotly",
        "sf",
        "shiny",
-       "shinydashboard")
+       "shinydashboard",
+       "shinyWidgets")
 
 ##---------Generate tilegrams for each borough-------
 
@@ -613,7 +614,7 @@ g_medfuel_co2_int <- ggplotly(g_medfuel_co2, width = 600, height = 700, # ggplot
 
 # High fuel - CO2
 g_highfuel_co2 <- ggplot() +
-  geom_tile(data = merged_highfueldf, aes(y = -row, x = col, fill = mean_co2, text = sprintf("Borough: %s<br>Net Present Value: %s<br>", name, round(mean_NPV))), color = 'white') +
+  #geom_tile(data = merged_highfueldf, aes(y = -row, x = col, fill = mean_co2, text = sprintf("Borough: %s<br>Net Present Value: %s<br>", name, round(mean_NPV))), color = 'white') +
   geom_sf(data = merged_highfueldf_polygonSF, size = 1, fill = NA, color = 'black') +
   #scale_fill_gradient(low = "lightblue", high = "darkblue", guide = "legend") +
   scale_fill_viridis_c(option = "B", direction = -1) + #limits = c(X,X)
@@ -622,6 +623,1011 @@ g_highfuel_co2 <- ggplot() +
   theme_void()
 g_highfuel_co2_int <- ggplotly(g_highfuel_co2, width = 600, height = 700, # ggplotly returns a plotly object 
                               tooltip = c("text"))
+
+
+# Alternative way of plotting - all plot_ly, no ggplot + ggplotly
+
+g2 <- plot_ly() # create a plotly object
+g2 <- add_trace( # add the scatter layer
+  g2,
+  data = merged_highfueldf,
+  type = "scatter",
+  mode   = 'markers',
+  marker = list(symbol = 'square', size = 10),
+  y = ~(-row),
+  x = ~col,
+  text = ~paste("Borough:", name, "<br>Net Present Value:", round(mean_NPV)),
+  color = ~mean_NPV,
+  hoverinfo = "text"
+)
+g2 <- add_sf( # add the geom_sf layer
+  g2, 
+  data = merged_highfueldf_polygonSF,
+  size = I(1),
+  fill = I("transparent"),
+  color = I("black")
+)
+g2 <- colorbar(g2, limits = c(10000,60000))
+g2 <- layout( # set the labels and axis titles
+  g2,
+  xaxis = list(title = ""),
+  yaxis = list(title = ""),
+  showlegend = FALSE
+)
+m <- list( # layout
+  l = 50,
+  r = 50,
+  b = 100,
+  t = 100,
+  pad = 0
+)
+g2 <- g2 %>% layout(autosize = F, width = 775, height = 775, margin = m)
+
+#text_annotation <- list(
+#  x = 9, y = -45, # Adjust x and y values for positioning
+#  text = "Cost-effectiveness is expressed as Net Present Value, or the sum of the benefits minus the costs \nof a project over the life of a project. Here, a NPV value of 10K means that an average household in that borough will save \n10 thousand dollars from installing a heat pump over the life of a heat pump (~14 years).",
+#  showarrow = FALSE,
+#  xref = "x",
+#  yref = "y"
+#)
+#g2 <- g2 %>% layout(annotations = list(text_annotation))
+g2 # show plot
+
+# Function for NPV plot
+npv_plot_func <- function(plot_name, scatter_df, sf_df){
+plot_name <- plot_ly() # create a plotly object
+plot_name <- add_trace( # add the scatter layer
+  plot_name,
+  data = scatter_df,
+  type = "scatter",
+  mode   = 'markers',
+  marker = list(symbol = 'square', size = 9),
+  y = ~(-row),
+  x = ~col,
+  text = ~paste("Borough:", name, "<br>Net Present Value:", round(mean_NPV)),
+  color = ~mean_NPV,
+  colors = "YlOrRd",
+  hoverinfo = "text"
+)
+plot_name <- add_sf( # add the geom_sf layer
+  plot_name, 
+  data = sf_df,
+  size = I(1),
+  fill = I("transparent"),
+  color = I("black")
+)
+plot_name <- plot_name %>% colorbar(limits = c(9000,58000), title = "<b>Cost-Effectiveness</b>\n<i>Net Present Value",
+                                    orientation = "h", len = 1)
+plot_name <- layout( # set the labels and axis titles
+  plot_name,
+  title = '<b>Average Cost Savings from Heat Pump Installation \nby Borough',
+  xaxis = list(title = ""),
+  yaxis = list(title = ""),
+  showlegend = FALSE
+)
+m <- list( # layout
+  l = 30,
+  r = 1,
+  b = 1,
+  t = 75,
+  pad = 3
+)
+plot_name <- plot_name %>% layout(autosize = F, width = 600, height = 680, margin = m)
+plot_name # show plot
+}
+
+plotly_npv_base <- npv_plot_func(plotly_npv_base, merged_basedf, merged_basedf_polygonSF)
+plotly_npv_medfuel <- npv_plot_func(plotly_npv_medfuel, merged_medfueldf, merged_medfueldf_polygonSF)
+plotly_npv_highfuel <- npv_plot_func(plotly_npv_highfuel, merged_highfueldf, merged_highfueldf_polygonSF)
+
+# Interactive plot for CO2 at borough level
+plotly_co2 <- plot_ly() # create a plotly object
+plotly_co2 <- add_trace( # add the scatter layer
+  plotly_co2,
+    data = merged_basedf,
+    type = "scatter",
+    mode   = 'markers',
+    marker = list(symbol = 'square', size = 9),
+    y = ~(-row),
+    x = ~col,
+    text = ~paste("Borough:", name, "<br>CO2 Saved:", round(mean_co2), "lbs"),
+    color = ~mean_co2,
+    colors = "YlGn",
+    hoverinfo = "text"
+  )
+plotly_co2 <- add_sf( # add the geom_sf layer
+  plotly_co2, 
+    data = merged_basedf_polygonSF,
+    size = I(1),
+    fill = I("transparent"),
+    color = I("black")
+  )
+plotly_co2 <- plotly_co2 %>% colorbar(limits = c(2800,8050), title = "<b>CO2 Saved (lbs)",
+                                      orientation = "h", len = 1)
+plotly_co2 <- layout( # set the labels and axis titles
+  plotly_co2,
+    title = '<b>Average Pounds of Carbon Dioxide Saved from Heat Pumps \nPer Household',
+    xaxis = list(title = ""),
+    yaxis = list(title = ""),
+    showlegend = FALSE
+  )
+m <- list( # layout
+    l = 30,
+    r = 1,
+    b = 1,
+    t = 75,
+    pad = 3
+  )
+plotly_co2 <- plotly_co2 %>% layout(autosize = F, width = 600, height = 680, margin = m)
+plotly_co2 # show plot
+
+
+
+# FINAL ONES
+first_proj <- read.csv('adoption_scenarios_by_cop_and_pop_max_50p_sat_pretty.csv')
+head(first_proj)
+names(first_proj)[2] <- 'name'
+proj_df <- merge(first_proj, merged_basedf, by = 'name')
+proj_df_raster <- 
+  proj_df %>%
+  mutate(name2 = as.integer(factor(name))) %>% # coerce name into integer-factor
+  mutate(row = -row) %>%
+  dplyr::select(col, row, name2)               # select X, Y (for coords), Z (for value)
+
+proj_df_raster <- rasterFromXYZ(proj_df_raster)       # turn to raster 
+proj_df_polygon <- rasterToPolygons(proj_df_raster, dissolve = TRUE)  # turn to polygon 
+proj_df_polygonSF <- st_as_sf(proj_df_polygon)                        # turn to sf object
+
+
+# Current HP adoption rates
+current_adoptrate <- plot_ly() # create a plotly object
+current_adoptrate <- add_trace( # add the scatter layer
+  current_adoptrate,
+  data = proj_df,
+  type = "scatter",
+  mode   = 'markers',
+  marker = list(symbol = 'square', size = 9),
+  y = ~(-row),
+  x = ~col,
+  text = ~paste("Borough:", name, "<br>", "Number of heat pumps:", hp_current, "<br>", "Percentage out of households in borough:", round(hp_current_prop_b*100, 2), "%"),
+  #text = sprintf("Borough: %s<br>Number of Heat Pumps: %s<br>", name, hp_current),
+  text = ~name,
+  #hovertemplate = paste('<b>Borough</b>: %{text}<br>', '<b>Number of Heat Pumps</b>: %{marker.color}<br>'),
+  color = ~hp_current,
+  colors = "YlOrRd",
+  hoverinfo = "text"
+)
+current_adoptrate <- add_sf( # add the geom_sf layer
+  current_adoptrate, 
+  data = proj_df_polygonSF,
+  size = I(1),
+  fill = I("transparent"),
+  color = I("black")
+)
+current_adoptrate <- current_adoptrate %>% colorbar(limits = c(0,7050), title = "<b>No. of Heat Pumps",
+                                                    orientation = "h", len = 1)
+current_adoptrate <- layout( # set the labels and axis titles
+  current_adoptrate,
+  title = '<b>Number of Heat Pumps Installed \nby Borough',
+  xaxis = list(title = ""),
+  yaxis = list(title = ""),
+  showlegend = FALSE
+)
+m <- list( # layout
+  l = 30,
+  r = 1,
+  b = 1,
+  t = 75,
+  pad = 3
+)
+current_adoptrate <- current_adoptrate %>% layout(autosize = F, width = 600, height = 680, margin = m)
+current_adoptrate # show plot
+
+# 2% HP adoption rates
+two_adoptrate <- plot_ly() # create a plotly object
+two_adoptrate <- add_trace( # add the scatter layer
+  two_adoptrate,
+  data = proj_df,
+  type = "scatter",
+  mode   = 'markers',
+  marker = list(symbol = 'square', size = 9),
+  y = ~(-row),
+  x = ~col,
+  text = ~paste("Borough:", name, "<br>", "Number of heat pumps:", hp_2p, "<br>", "Percentage out of households in borough:", round(hp_2p_prop_b*100, 2), "%"),
+  #text = sprintf("Borough: %s<br>Number of Heat Pumps: %s<br>", name, hp_current),
+  text = ~name,
+  #hovertemplate = paste('<b>Borough</b>: %{text}<br>', '<b>Number of Heat Pumps</b>: %{marker.color}<br>'),
+  color = ~hp_2p,
+  colors = "YlOrRd",
+  hoverinfo = "text"
+)
+two_adoptrate <- add_sf( # add the geom_sf layer
+  two_adoptrate, 
+  data = proj_df_polygonSF,
+  size = I(1),
+  fill = I("transparent"),
+  color = I("black")
+)
+two_adoptrate <- two_adoptrate %>% colorbar(limits = c(0,7050), title = "<b>No. of Heat Pumps",
+                                            orientation = "h", len = 1)
+two_adoptrate <- layout( # set the labels and axis titles
+  two_adoptrate,
+  title = '<b>Number of Heat Pumps Installed \nby Borough',
+  xaxis = list(title = ""),
+  yaxis = list(title = ""),
+  showlegend = FALSE
+)
+m <- list( # layout
+  l = 30,
+  r = 1,
+  b = 1,
+  t = 75,
+  pad = 3
+)
+two_adoptrate <- two_adoptrate %>% layout(autosize = F, width = 600, height = 680, margin = m)
+two_adoptrate # show plot
+
+
+# 15% HP adoption rates
+fifteen_adoptrate <- plot_ly() # create a plotly object
+fifteen_adoptrate <- add_trace( # add the scatter layer
+  fifteen_adoptrate,
+  data = proj_df,
+  type = "scatter",
+  mode   = 'markers',
+  marker = list(symbol = 'square', size = 9),
+  y = ~(-row),
+  x = ~col,
+  text = ~paste("Borough:", name, "<br>", "Number of heat pumps:", hp_15p, "<br>", "Percentage out of households in borough:", round(hp_15p_prop_b*100, 2), "%"),
+  #text = sprintf("Borough: %s<br>Number of Heat Pumps: %s<br>", name, hp_current),
+  text = ~name,
+  #hovertemplate = paste('<b>Borough</b>: %{text}<br>', '<b>Number of Heat Pumps</b>: %{marker.color}<br>'),
+  color = ~hp_15p,
+  colors = "YlOrRd",
+  hoverinfo = "text"
+)
+fifteen_adoptrate <- add_sf( # add the geom_sf layer
+  fifteen_adoptrate, 
+  data = proj_df_polygonSF,
+  size = I(1),
+  fill = I("transparent"),
+  color = I("black")
+)
+fifteen_adoptrate <- fifteen_adoptrate %>% colorbar(limits = c(0,7050), title = "<b>No. of Heat Pumps",
+                                                    orientation = "h", len = 1)
+fifteen_adoptrate <- layout( # set the labels and axis titles
+  fifteen_adoptrate,
+  title = '<b>Number of Heat Pumps Installed \nby Borough',
+  xaxis = list(title = ""),
+  yaxis = list(title = ""),
+  showlegend = FALSE
+)
+m <- list( # layout
+  l = 30,
+  r = 1,
+  b = 1,
+  t = 75,
+  pad = 3
+)
+fifteen_adoptrate <- fifteen_adoptrate %>% layout(autosize = F, width = 600, height = 680, margin = m)
+fifteen_adoptrate # show plot
+
+
+# 15% HP adoption rates - percentages
+fifteen_adoptrate_perc <- plot_ly() # create a plotly object
+fifteen_adoptrate_perc <- add_trace( # add the scatter layer
+  fifteen_adoptrate_perc,
+  data = proj_df,
+  type = "scatter",
+  mode   = 'markers',
+  marker = list(symbol = 'square', size = 9),
+  y = ~(-row),
+  x = ~col,
+  text = ~paste("Borough:", name, "<br>", "Number of heat pumps:", hp_15p, "<br>", "Percentage out of households in borough:", round(hp_15p_prop_b*100, 2), "%"),
+  #text = sprintf("Borough: %s<br>Number of Heat Pumps: %s<br>", name, hp_current),
+  text = ~name,
+  #hovertemplate = paste('<b>Borough</b>: %{text}<br>', '<b>Number of Heat Pumps</b>: %{marker.color}<br>'),
+  color = ~hp_15p_prop_b,
+  colors = "YlOrRd",
+  hoverinfo = "text"
+)
+fifteen_adoptrate_perc <- add_sf( # add the geom_sf layer
+  fifteen_adoptrate_perc, 
+  data = proj_df_polygonSF,
+  size = I(1),
+  fill = I("transparent"),
+  color = I("black")
+)
+fifteen_adoptrate_perc <- fifteen_adoptrate_perc %>% colorbar(limits = c(0,.5), title = "<b>No. of Heat Pumps",
+                                                              orientation = "h", len = 1)
+fifteen_adoptrate_perc <- layout( # set the labels and axis titles
+  fifteen_adoptrate_perc,
+  title = '<b>Number of Heat Pumps Installed \nby Borough',
+  xaxis = list(title = ""),
+  yaxis = list(title = ""),
+  showlegend = FALSE
+)
+m <- list( # layout
+  l = 30,
+  r = 1,
+  b = 1,
+  t = 75,
+  pad = 3
+)
+fifteen_adoptrate_perc <- fifteen_adoptrate_perc %>% layout(autosize = F, width = 600, height = 680, margin = m)
+fifteen_adoptrate_perc # show plot
+
+
+# Plain tilegram for first page of dashboard
+plain_plot <- plot_ly() # create a plotly object
+plain_plot <- add_trace( # add the scatter layer
+  plain_plot,
+  data = proj_df,
+  type = "scatter",
+  mode   = 'markers',
+  marker = list(symbol = 'square', size = 9, color = 'rgb(230,230,230)'),
+  text = ~paste("Borough:", name, "<br>", "Value of interest:", hp_15p),
+  hoverinfo = "text",
+  y = ~(-row),
+  x = ~col
+)
+plain_plot <- add_sf( # add the geom_sf layer
+  plain_plot, 
+  data = proj_df_polygonSF,
+  size = I(1),
+  fill = I("transparent"),
+  color = I("black")
+)
+plain_plot <- layout( # set the labels and axis titles
+  plain_plot,
+  title = '',
+  xaxis = list(title = ""),
+  yaxis = list(title = ""),
+  showlegend = FALSE
+)
+m <- list( # layout
+  l = 30,
+  r = 1,
+  b = 1,
+  t = 75,
+  pad = 3
+)
+plain_plot <- plain_plot %>% layout(autosize = F, width = 600, height = 680, margin = m)
+plain_plot # show plot
+
+
+
+
+##------Shiny dashboard-----
+
+ui <- dashboardPage(skin = "blue",
+  dashboardHeader(title = HTML("<b>Heat Pump Adoption in Alaska: A Visualization Tool</b>"), titleWidth = 540),
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Motivation", tabName = "motivation", icon = icon("file")),      
+      menuItem("Adoption Rate Projections", tabName = "statewide", icon = icon("chart-line")),
+      menuItem("Projections", tabName = "proj", icon = icon("money-bill"),
+               menuSubItem("Feasibility", tabName = "sub_feas"), 
+               menuSubItem("Economic", tabName = "sub_ec"),
+               menuSubItem("Environmental", tabName = "sub_env")),
+      menuItem("Case Studies", tabName = "case", icon = icon("map-marker"))
+    )
+  ),
+  dashboardBody(
+    # Boxes need to be put in a row (or column)
+    tabItems(
+      tabItem(tabName = "motivation",
+              fluidRow(
+                column(width = 12,
+                  titlePanel("Guide to Exploring the Visualizations on this Dashboard"),
+                  box(title = HTML(" Many of our visualizations are <b>Tilegrams</b>"),
+                    width = NULL,
+                    HTML("A Tilegram, short for <i>Tiled Cartogram</i>, is a map made up of tiles where regions are proportional to a dataset. In our plots, regions are Census Boroughs and they are proportional to the number of people in that Borough. Tilegrams can represent demographic data more accurately than traditional geographic maps, but still retain a familiar shape. You can read more about tilegrams here <insert a link?>")),
+                  imageOutput("image"))
+              )
+      ),
+      tabItem(tabName = "statewide",
+              fluidRow(
+                column(width=4,
+                  box(title = HTML("<b>Projected Heat Pump Adoption Rates</b>"), solidHeader = TRUE,
+                    "Toggle between current heat pump estimates, moderate projections (2% of households), and aggressive projections (15% of households)", 
+                    ticks = FALSE, radioGroupButtons(
+                      inputId = "adoption_button",
+                      label = " ",
+                      choices = c("Current", "2%", "15%"),
+                      status = "primary", size = 'normal', justified = TRUE), width = NULL), 
+                  valueBoxOutput("moneysaved", width = NULL),
+                  valueBoxOutput("co2saved", width = NULL),
+                  valueBoxOutput("heatingdays", width = NULL),
+                ),
+                column(width = 8,
+                  plotlyOutput("plot1")
+                )
+              )
+      ),
+      tabItem(tabName = "sub_ec",
+              fluidRow(
+                column(width=4, 
+                  box(title = HTML("<b>Fuel Price Increase Projections</b>"), solidHeader = TRUE,
+                    "Toggle between current fuel prices, medium increases in projected fuel prices, and large increases in projected fuel prices", 
+                    ticks = FALSE, radioGroupButtons(
+                      inputId = "buttons_fuel",
+                      label = "Level of increase:",
+                      choices = c("Current", "Medium", "Large"),
+                      status = "primary", size = 'normal', justified = TRUE), width = NULL),
+                  box(title = HTML("<b>Rebate Projections</b>"), solidHeader = TRUE,
+                    "Toggle between currently provided rebates, moderate increases in projected rebates, and large increases in projected rebates", 
+                    ticks = FALSE, radioGroupButtons(
+                      inputId = "buttons_rebate",
+                      label = "Level of increase:",
+                      choices = c("Current", "Medium", "Large"),
+                      status = "primary", size = 'normal', justified = TRUE), width = NULL),
+                  box(title = HTML("<b>Climate Change Projections</b>"), solidHeader = TRUE,
+                    "Toggle between current climate conditions, moderate increases in projected temperature increases, and large increases in projected temperature increases", 
+                    ticks = FALSE, radioGroupButtons(
+                      inputId = "buttons_climate",
+                      label = "Level of increase:",
+                      choices = c("Current", "Medium", "Large"),
+                      status = "primary", size = 'normal', justified = TRUE), width = NULL),
+                ),
+                column(width = 8,
+                  plotlyOutput("plot2", height = 615),
+                  box(title = HTML("<b>What is Net Present Value?</b>"), 
+                      HTML("<b>Cost-effectiveness</b> is expressed as <b>Net Present Value</b>, or the sum of the benefits minus the costs of a project over the life of a project. For example, a NPV value of 10K means that an average household in that borough will save $10k from installing a heat pump over the life of a heat pump (~14 years)"),
+                      collapsible = TRUE, collapsed = TRUE)
+                )
+              )
+      ),
+      tabItem(tabName = "sub_env",
+              plotlyOutput("plot3")
+      ),
+      tabItem(tabName = "case",
+              h2("Census block visualizations in progress")
+      )
+    ),
+  )
+)
+
+
+server <- function(input, output) {
+  
+  output$image <- renderImage({
+    return(list(src = "/Users/katherinegrisanzio/Desktop/dssg-vis/map_image.png", contentType = "image/png", alt = "picture",
+                width = "100%"))
+  }, deleteFile = FALSE) 
+  
+  valuebox1 <- reactive({
+    if(input$adoption_button == "Current") {
+      valueBox(40.87, "Millions of $ Saved", icon = icon("dollar-sign"), color = 'blue', width=NULL)
+    }
+    else if (input$adoption_button == "2%"){
+      valueBox(113.75, "Millions of $ Saved", icon = icon("dollar-sign"), color = 'blue', width=NULL)
+    }
+    else if (input$adoption_button == "15%"){
+      valueBox(855.48, "Millions of $ Saved", icon = icon("dollar-sign"), color = 'blue', width=NULL)
+    }
+  })
+  
+  valuebox2 <- reactive({
+    if(input$adoption_button == "Current") {
+      valueBox(12.65, "Millions of lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=NULL)
+    }
+    else if (input$adoption_button == "2%"){
+      valueBox(35.79, "Millions of lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=NULL)
+    }
+    else if (input$adoption_button == "15%"){
+      valueBox(258.50, "Millions of lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=NULL)
+    }
+  })
+  
+  valuebox3 <- reactive({
+    if(input$adoption_button == "Current") {
+      valueBox(100, "Thousands of Days of Heat Provided", icon = icon("fire"), color = 'red', width=NULL)
+    }
+    else if (input$adoption_button == "2%"){
+      valueBox(250, "Thousands of Days of Heat Provided", icon = icon("fire"), color = 'red', width=NULL)
+    }
+    else if (input$adoption_button == "15%"){
+      valueBox(800, "Thousands Days of Heat Provided", icon = icon("fire"), color = 'red', width=NULL)
+    }
+  })
+  
+  your_plot <- reactive({
+    if(input$adoption_button == "Current") {
+      current_adoptrate
+    }
+    else if (input$adoption_button == "2%"){
+      two_adoptrate
+    }
+    else if (input$adoption_button == "15%"){
+      fifteen_adoptrate
+    }
+  })
+  
+  output$plot1 <- renderPlotly({
+    your_plot()
+  })
+  
+  your_plot_borough <- reactive({
+    if(input$buttons_fuel == "Current") {
+      plotly_npv_base
+    }
+    else if (input$buttons_fuel == "Medium"){
+      plotly_npv_medfuel
+    }
+    else if (input$buttons_fuel == "Large"){
+      plotly_npv_highfuel
+    }
+  })
+  
+  output$plot2 <- renderPlotly({
+    your_plot_borough()
+  })
+  
+  output$moneysaved <- renderValueBox({
+    valuebox1()
+  })
+  
+  output$co2saved <- renderValueBox({
+    valuebox2()
+  })
+  
+  output$heatingdays <- renderValueBox({
+    valuebox3()
+  })
+ 
+   output$plot3 <- renderPlotly({
+     plotly_co2
+  })
+  
+}
+
+
+shinyApp(ui, server)
+
+# https://fontawesome.com/v5/search?q=cash&o=r
+# "Box content here", br(), "More box content"
+
+
+
+##----TRASH-----
+
+
+
+### Figure for 2% HP adoption by borough
+cop_df <- read.csv('exploreCOP.csv')
+head(merged_basedf)
+names(cop_df)[7] <- 'name'
+vis_test <- merge(cop_df, merged_basedf, by = 'name')
+
+vis_test_raster <- 
+  vis_test %>%
+  mutate(name2 = as.integer(factor(name))) %>% # coerce name into integer-factor
+  mutate(row = -row) %>%
+  dplyr::select(col, row, name2)               # select X, Y (for coords), Z (for value)
+
+vis_test_raster <- rasterFromXYZ(vis_test_raster)       # turn to raster 
+vis_test_polygon <- rasterToPolygons(vis_test_raster, dissolve = TRUE)  # turn to polygon 
+vis_test_polygonSF <- st_as_sf(vis_test_polygon)                        # turn to sf object
+
+
+twoperc_plot <- ggplot() +
+  geom_tile(data = vis_test, aes(y = -row, x = col, fill = distributed_2p), color = 'white') +
+  geom_sf(data = vis_test_polygonSF, size = 1, fill = NA, color = 'black') +
+  #scale_fill_gradient(low = "lightblue", high = "darkblue", guide = "legend") +
+  scale_fill_viridis_c(option = "B", direction = -1) +
+  labs(title = "2% Heat Pump Adoption Adjusted by Feasibility per Borough", fill = 'No. of Installed Heat Pumps') +
+  #geom_sf_text(data = merged_grid_npv_polygonSF, aes(label = name2)) +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+naive_proj_df <- read.csv('naive_projections.csv')
+head(naive_proj_df)
+names(naive_proj_df)[2] <- 'name'
+vistest2 <- merge(naive_proj_df, merged_basedf, by = 'name')
+vistest2[which(vistest2$hp_15p_proportion > 1), "hp_15p_proportion"] <- 1
+
+ggplot() +
+  geom_tile(data = vistest2, aes(y = -row, x = col, fill = hp_15p), color = 'white') +
+  #geom_sf(data = vis_test_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, 3400)) +
+  labs(title = "15% Heat Pump Adoption", fill = '# Houses with HP Installed') +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# current_hp, hp_2p, hp_15p
+
+
+# Should be only one we need
+first_proj <- read.csv('first_projections.csv')
+head(first_proj)
+names(first_proj)[2] <- 'name'
+proj_df <- merge(first_proj, merged_basedf, by = 'name')
+proj_df_raster <- 
+  proj_df %>%
+  mutate(name2 = as.integer(factor(name))) %>% # coerce name into integer-factor
+  mutate(row = -row) %>%
+  dplyr::select(col, row, name2)               # select X, Y (for coords), Z (for value)
+
+proj_df_raster <- rasterFromXYZ(proj_df_raster)       # turn to raster 
+proj_df_polygon <- rasterToPolygons(proj_df_raster, dissolve = TRUE)  # turn to polygon 
+proj_df_polygonSF <- st_as_sf(proj_df_polygon)                        # turn to sf object
+
+cur_totalprop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = current_hp/326200), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
+  labs(title = "Current Heat Pump Adoption", fill = 'Prop Houses with HP Installed') +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+p2_totalprop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_2p_total_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
+  labs(title = "2% Projected Heat Pump Adoption", fill = 'Prop Houses with HP Installed') +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+p15_totalprop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_total_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
+  labs(title = "15% Projected Heat Pump Adoption", fill = 'Prop Houses with HP Installed') +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Newest csv
+fifteen_df <- read.csv('15percent_adoption_scenarios.csv')
+names(fifteen_df)[2] <- 'name'
+proj_df <- merge(fifteen_df, merged_basedf, by = 'name')
+proj_df_raster <- 
+  proj_df %>%
+  mutate(name2 = as.integer(factor(name))) %>% # coerce name into integer-factor
+  mutate(row = -row) %>%
+  dplyr::select(col, row, name2)               # select X, Y (for coords), Z (for value)
+
+proj_df_raster <- rasterFromXYZ(proj_df_raster)       # turn to raster 
+proj_df_polygon <- rasterToPolygons(proj_df_raster, dissolve = TRUE)  # turn to polygon 
+proj_df_polygonSF <- st_as_sf(proj_df_polygon)                        # turn to sf object
+
+hp_15p_r1 <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r1), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(100, 5000)) +
+  #labs(title = "hp_15p_r1") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_r2 <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r2), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(100, 5000)) + 
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_norm <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_norm), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(100, 5000)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggarrange(hp_15p_r1, hp_15p_r2, hp_15p_norm, nrow = 1)
+
+
+hp_15p_r1_prop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r1_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
+  #labs(title = "hp_15p_r1") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_r2_prop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r2_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) + 
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_norm_prop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_norm_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggarrange(hp_15p_r1_prop, hp_15p_r2_prop, hp_15p_norm_prop, nrow = 1)
+
+
+hp_15p_r1_prop_b <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r1_prop_b), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, 1)) +
+  #labs(title = "hp_15p_r1") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_r2_prop_b <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r2_prop_b), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, 1)) + 
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_norm_prop_b <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_norm_prop_b), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, 1)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggarrange(hp_15p_r1_prop_b, hp_15p_r2_prop_b, hp_15p_norm_prop_b, nrow = 1)
+
+
+#hp_15p_r1, hp_15p_r2, hp_15p_norm
+#absolute numbers
+
+#_prop all go together
+#_propb all go together
+
+# Newest
+first_proj <- read.csv('15percent_adoption_scenarios_by_npv.csv')
+head(first_proj)
+names(first_proj)[2] <- 'name'
+proj_df <- merge(first_proj, merged_basedf, by = 'name')
+proj_df_raster <- 
+  proj_df %>%
+  mutate(name2 = as.integer(factor(name))) %>% # coerce name into integer-factor
+  mutate(row = -row) %>%
+  dplyr::select(col, row, name2)               # select X, Y (for coords), Z (for value)
+
+proj_df_raster <- rasterFromXYZ(proj_df_raster)       # turn to raster 
+proj_df_polygon <- rasterToPolygons(proj_df_raster, dissolve = TRUE)  # turn to polygon 
+proj_df_polygonSF <- st_as_sf(proj_df_polygon)                        # turn to sf object
+
+hp_15p_r1_npv_prop_b <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r1_npv_prop_b), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, 1)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_r2_npv_prop_b <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r2_npv_prop_b), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, 1)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_norm_npv_prop_b <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_norm_npv_prop_b), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, 1)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggarrange(hp_15p_r1_npv_prop_b, hp_15p_r2_npv_prop_b, hp_15p_norm_npv_prop_b, nrow = 1)
+
+
+hp_15p_r1_npv_prop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r1_npv_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_r2_npv_prop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r2_npv_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_norm_npv_prop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_norm_npv_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggarrange(hp_15p_r1_npv_prop, hp_15p_r2_npv_prop, hp_15p_norm_npv_prop, nrow = 1)
+
+
+hp_15p_r1_npv <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r1_npv), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(100, 5000)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_r2_npv <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r2_npv), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(100, 5000)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_norm_npv <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_norm_npv), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(100, 5000)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggarrange(hp_15p_r1_npv, hp_15p_r2_npv, hp_15p_norm_npv, nrow = 1)
+
+
+# Newest
+first_proj <- read.csv('15percent_adoption_scenarios_by_cop_max_50p_sat.csv')
+head(first_proj)
+names(first_proj)[2] <- 'name'
+proj_df <- merge(first_proj, merged_basedf, by = 'name')
+proj_df_raster <- 
+  proj_df %>%
+  mutate(name2 = as.integer(factor(name))) %>% # coerce name into integer-factor
+  mutate(row = -row) %>%
+  dplyr::select(col, row, name2)               # select X, Y (for coords), Z (for value)
+
+proj_df_raster <- rasterFromXYZ(proj_df_raster)       # turn to raster 
+proj_df_polygon <- rasterToPolygons(proj_df_raster, dissolve = TRUE)  # turn to polygon 
+proj_df_polygonSF <- st_as_sf(proj_df_polygon)                        # turn to sf object
+
+hp_15p_r1_50 <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r1_50), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(100, 8000)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_r2_50 <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r2_50), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(100, 8000)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_norm_50 <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_norm_50), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(100, 8000)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggarrange(hp_15p_r1_50, hp_15p_r2_50, hp_15p_norm_50, nrow = 1)
+
+
+hp_15p_r1_50_prop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r1_50_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .022)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_r2_50_prop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r2_50_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .022)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_norm_50_prop <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_norm_50_prop), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .022)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggarrange(hp_15p_r1_50_prop, hp_15p_r2_50_prop, hp_15p_norm_50_prop, nrow = 1)
+
+
+hp_15p_r1_50_prop_b <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r1_50_prop_b), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0,.5)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_r2_50_prop_b <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r2_50_prop_b), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0,.5)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_norm_50_prop_b <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_norm_50_prop_b), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0,.5)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggarrange(hp_15p_r1_50_prop_b, hp_15p_r2_50_prop_b, hp_15p_norm_50_prop_b, nrow = 1)
+
+
+# Newest
+first_proj <- read.csv('15percent_adoption_scenarios_by_cop_and_pop_max_50p_sat.csv')
+head(first_proj)
+names(first_proj)[2] <- 'name'
+proj_df <- merge(first_proj, merged_basedf, by = 'name')
+proj_df_raster <- 
+  proj_df %>%
+  mutate(name2 = as.integer(factor(name))) %>% # coerce name into integer-factor
+  mutate(row = -row) %>%
+  dplyr::select(col, row, name2)               # select X, Y (for coords), Z (for value)
+
+proj_df_raster <- rasterFromXYZ(proj_df_raster)       # turn to raster 
+proj_df_polygon <- rasterToPolygons(proj_df_raster, dissolve = TRUE)  # turn to polygon 
+proj_df_polygonSF <- st_as_sf(proj_df_polygon)                        # turn to sf object
+
+
+hp_15p_r1_50 <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r1_50), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(100, 8000)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_r2_50 <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r2_50), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(100, 8000)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggarrange(hp_15p_r1_50, hp_15p_r2_50, nrow = 1)
+
+hp_15p_r1_50_prop_b <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r1_50_prop_b), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0,.5)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+hp_15p_r2_50_prop_b <- ggplot() +
+  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_r2_50_prop_b), color = 'white') +
+  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
+  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0,.5)) +
+  #labs(title = "hp_15p_r2") +
+  theme_void(base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggarrange(hp_15p_r1_50_prop_b, hp_15p_r2_50_prop_b, nrow = 1)
+
+
+# Actual plots- hp_current, hp_2p_r1_50, hp_15p_r1_50
+# hp_2p_r1_50_prop_b, hp_15p_r1_50_prop_b
+
+
 
 
 # Shiny
@@ -867,220 +1873,5 @@ server <- shinyServer(function(input, output, session) {
 
 shinyApp(ui=ui, server=server)
 
-
-
-# Shiny dashboard
-
-ui <- dashboardPage(skin = "blue",
-  dashboardHeader(title = HTML("<b>Heat Pumps in Alaska</b>"), titleWidth = 250),
-  dashboardSidebar(
-    sidebarMenu(
-      menuItem("Statewide Visualizations", tabName = "statewide", icon = icon("dashboard")),
-      menuItem("Visualizations by Borough", tabName = "borough", icon = icon("th")),
-      menuItem("Visualizations by Census Block", tabName = "block", icon = icon("th"))
-    )
-  ),
-  dashboardBody(
-    # Boxes need to be put in a row (or column)
-    tabItems(
-      # First tab content
-      tabItem(tabName = "statewide",
-              fluidRow(
-                box(title = HTML("<b>Heat Pump Adoption Rates</b>"), solidHeader = TRUE,
-                    "Toggle between current heat pump estimates, moderate projections, and aggressive projections", 
-                    ticks = FALSE, sliderInput("slider", "Current -- Moderate -- Aggressive", 1, 3, 1), width = 12),
-                valueBoxOutput("moneysaved"),
-                valueBoxOutput("co2saved"),
-                valueBoxOutput("heatingdays"),
-                box(plotOutput("plot1"), width = 12)
-              )
-      ),
-      # Second tab content
-      tabItem(tabName = "borough",
-              fluidRow(
-                box(title = HTML("<b>Fuel Price Increase Projections</b>"), solidHeader = TRUE,
-                    "Toggle between current fuel prices, medium increases in projected fuel prices, and large increases in projected fuel prices", 
-                    ticks = FALSE, sliderInput("slider", "Current -- Medium -- Large", 1, 3, 1), width = 4, height = 250),
-                box(title = HTML("<b>Rebate Projections</b>"), solidHeader = TRUE,
-                    "Toggle between currently provided rebates, medium increases in projected rebates, and large increases in projected rebates", 
-                    ticks = FALSE, sliderInput("slider", "Current -- Medium -- Large", 1, 3, 1), width = 4, height = 250),
-                box(title = HTML("<b>Climate Change Projections</b>"), solidHeader = TRUE,
-                    "Toggle between current climate conditions, medium increases in projected temperature increases, and large increases in projected temperature increases", 
-                    ticks = FALSE, sliderInput("slider", "Current -- Medium -- Large", 1, 3, 1), width = 4, height = 250),
-                box(plotlyOutput("plot2"), width = 12)
-              )
-      ),
-      tabItem(tabName = "block",
-              h2("Block vis here")
-      )
-    ),
-  )
-)
-
-
-server <- function(input, output) {
-  
-  valuebox1 <- reactive({
-    if(input$slider == 1) {
-      valueBox(10000, "Total $ Saved", icon = icon("dollar-sign"), color = 'blue', width=4)
-    }
-    else if (input$slider == 2){
-      valueBox(20000, "Total $ Saved", icon = icon("dollar-sign"), color = 'blue', width=4)
-    }
-    else if (input$slider == 3){
-      valueBox(30000, "Total $ Saved", icon = icon("dollar-sign"), color = 'blue', width=4)
-    }
-  })
-  
-  valuebox2 <- reactive({
-    if(input$slider == 1) {
-      valueBox(35000, "Total lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=4)
-    }
-    else if (input$slider == 2){
-      valueBox(45000, "Total lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=4)
-    }
-    else if (input$slider == 3){
-      valueBox(55000, "Total lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=4)
-    }
-  })
-  
-  valuebox3 <- reactive({
-    if(input$slider == 1) {
-      valueBox(3500, "Total # Days of Heat Provided", icon = icon("fire"), color = 'red', width=4)
-    }
-    else if (input$slider == 2){
-      valueBox(4500, "Total # Days of Heat Provided", icon = icon("fire"), color = 'red', width=4)
-    }
-    else if (input$slider == 3){
-      valueBox(5500, "Total # Days of Heat Provided", icon = icon("fire"), color = 'red', width=4)
-    }
-  })
-  
-  your_plot <- reactive({
-    if(input$slider == 1) {
-      plot(cur_totalprop)
-    }
-    else if (input$slider == 2){
-      plot(p2_totalprop)
-    }
-    else if (input$slider == 3){
-      plot(p15_totalprop)
-    }
-  })
-  
-  output$plot1 <- renderPlot({
-    your_plot()
-  })
-  
-  output$plot2 <- renderPlotly({
-    g_int
-  })
-  
-  output$moneysaved <- renderValueBox({
-    valuebox1()
-  })
-  
-  output$co2saved <- renderValueBox({
-    valuebox2()
-  })
-  
-  output$heatingdays <- renderValueBox({
-    valuebox3()
-  })
-  
-}
-
-
-shinyApp(ui, server)
-
-# https://fontawesome.com/search?q=heat&o=r
-# "Box content here", br(), "More box content"
-
-
-
-
-### Figure for 2% HP adoption by borough
-cop_df <- read.csv('exploreCOP.csv')
-head(merged_basedf)
-names(cop_df)[7] <- 'name'
-vis_test <- merge(cop_df, merged_basedf, by = 'name')
-
-vis_test_raster <- 
-  vis_test %>%
-  mutate(name2 = as.integer(factor(name))) %>% # coerce name into integer-factor
-  mutate(row = -row) %>%
-  dplyr::select(col, row, name2)               # select X, Y (for coords), Z (for value)
-
-vis_test_raster <- rasterFromXYZ(vis_test_raster)       # turn to raster 
-vis_test_polygon <- rasterToPolygons(vis_test_raster, dissolve = TRUE)  # turn to polygon 
-vis_test_polygonSF <- st_as_sf(vis_test_polygon)                        # turn to sf object
-
-
-twoperc_plot <- ggplot() +
-  geom_tile(data = vis_test, aes(y = -row, x = col, fill = distributed_2p), color = 'white') +
-  geom_sf(data = vis_test_polygonSF, size = 1, fill = NA, color = 'black') +
-  #scale_fill_gradient(low = "lightblue", high = "darkblue", guide = "legend") +
-  scale_fill_viridis_c(option = "B", direction = -1) +
-  labs(title = "2% Heat Pump Adoption Adjusted by Feasibility per Borough", fill = 'No. of Installed Heat Pumps') +
-  #geom_sf_text(data = merged_grid_npv_polygonSF, aes(label = name2)) +
-  theme_void(base_size = 16) +
-  theme(plot.title = element_text(hjust = 0.5))
-
-
-naive_proj_df <- read.csv('naive_projections.csv')
-head(naive_proj_df)
-names(naive_proj_df)[2] <- 'name'
-vistest2 <- merge(naive_proj_df, merged_basedf, by = 'name')
-vistest2[which(vistest2$hp_15p_proportion > 1), "hp_15p_proportion"] <- 1
-
-ggplot() +
-  geom_tile(data = vistest2, aes(y = -row, x = col, fill = hp_15p), color = 'white') +
-  #geom_sf(data = vis_test_polygonSF, size = 1, fill = NA, color = 'black') +
-  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, 3400)) +
-  labs(title = "15% Heat Pump Adoption", fill = '# Houses with HP Installed') +
-  theme_void(base_size = 16) +
-  theme(plot.title = element_text(hjust = 0.5))
-
-# current_hp, hp_2p, hp_15p
-
-
-# Should be only one we need
-first_proj <- read.csv('first_projections.csv')
-head(first_proj)
-names(first_proj)[2] <- 'name'
-proj_df <- merge(first_proj, merged_basedf, by = 'name')
-proj_df_raster <- 
-  proj_df %>%
-  mutate(name2 = as.integer(factor(name))) %>% # coerce name into integer-factor
-  mutate(row = -row) %>%
-  dplyr::select(col, row, name2)               # select X, Y (for coords), Z (for value)
-
-proj_df_raster <- rasterFromXYZ(proj_df_raster)       # turn to raster 
-proj_df_polygon <- rasterToPolygons(proj_df_raster, dissolve = TRUE)  # turn to polygon 
-proj_df_polygonSF <- st_as_sf(proj_df_polygon)                        # turn to sf object
-
-cur_totalprop <- ggplot() +
-  geom_tile(data = proj_df, aes(y = -row, x = col, fill = current_hp/326200), color = 'white') +
-  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
-  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
-  labs(title = "Current Heat Pump Adoption", fill = 'Prop Houses with HP Installed') +
-  theme_void(base_size = 16) +
-  theme(plot.title = element_text(hjust = 0.5))
-
-p2_totalprop <- ggplot() +
-  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_2p_total_prop), color = 'white') +
-  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
-  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
-  labs(title = "2% Projected Heat Pump Adoption", fill = 'Prop Houses with HP Installed') +
-  theme_void(base_size = 16) +
-  theme(plot.title = element_text(hjust = 0.5))
-
-p15_totalprop <- ggplot() +
-  geom_tile(data = proj_df, aes(y = -row, x = col, fill = hp_15p_total_prop), color = 'white') +
-  geom_sf(data = proj_df_polygonSF, size = 1, fill = NA, color = 'black') +
-  scale_fill_viridis_c(option = "B", direction = -1, limits = c(0, .015)) +
-  labs(title = "15% Projected Heat Pump Adoption", fill = 'Prop Houses with HP Installed') +
-  theme_void(base_size = 16) +
-  theme(plot.title = element_text(hjust = 0.5))
 
 
