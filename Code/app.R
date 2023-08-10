@@ -55,15 +55,16 @@ ui <- dashboardPage(skin = "blue",
                                              "Toggle between current heat pump estimates, moderate projections (2% of households), and aggressive projections (15% of households)", 
                                              ticks = FALSE, radioGroupButtons(
                                                inputId = "adoption_button",
-                                               label = " ",
-                                               choices = c("Current", "2%", "15%"),
+                                               label = NULL,
+                                               choiceNames = c("Current", "2%", "15%"),
+                                               choiceValues = c("hp_current", "hp_2p", "hp_15p"),
                                                status = "primary", size = 'normal', justified = TRUE), width = NULL), 
-                                         valueBoxOutput("moneysaved", width = NULL),
-                                         valueBoxOutput("co2saved", width = NULL),
-                                         valueBoxOutput("heatingdays", width = NULL),
+                                         valueBoxOutput("moneySavedBox", width = NULL),
+                                         valueBoxOutput("co2SavedBox", width = NULL),
+                                         valueBoxOutput("heatingDaysBox", width = NULL),
                                   ),
                                   column(width = 8,
-                                         plotlyOutput("plot1")
+                                         plotlyOutput("adop_proj_plot")
                                   )
                                 )
                         ),
@@ -113,57 +114,36 @@ ui <- dashboardPage(skin = "blue",
 ## server
 server <- function(input, output) {
   
-  valuebox1 <- reactive({
-    if(input$adoption_button == "Current") {
-      valueBox(40.87, "Millions of $ Saved", icon = icon("dollar-sign"), color = 'blue', width=NULL)
-    }
-    else if (input$adoption_button == "2%"){
-      valueBox(113.75, "Millions of $ Saved", icon = icon("dollar-sign"), color = 'blue', width=NULL)
-    }
-    else if (input$adoption_button == "15%"){
-      valueBox(855.48, "Millions of $ Saved", icon = icon("dollar-sign"), color = 'blue', width=NULL)
-    }
+  output$adop_proj_plot <- renderPlotly({
+    vis_adopt_proj(input$adoption_button)
   })
   
-  valuebox2 <- reactive({
-    if(input$adoption_button == "Current") {
-      valueBox(12.65, "Millions of lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=NULL)
-    }
-    else if (input$adoption_button == "2%"){
-      valueBox(35.79, "Millions of lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=NULL)
-    }
-    else if (input$adoption_button == "15%"){
-      valueBox(258.50, "Millions of lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=NULL)
-    }
+  
+  output$moneySavedBox <- renderValueBox({
+    
+    money_saved <- 
+      state_estimates_wide %>%
+      filter(proj_rate == input$adoption_button) %>% 
+      pull(NPV)
+    
+    valueBox(round(money_saved/10^6, 1), "Millions of $ Saved", icon = icon("dollar-sign"), color = 'blue', width=NULL)
   })
   
-  valuebox3 <- reactive({
-    if(input$adoption_button == "Current") {
-      valueBox(100, "Thousands of Days of Heat Provided", icon = icon("fire"), color = 'red', width=NULL)
-    }
-    else if (input$adoption_button == "2%"){
-      valueBox(250, "Thousands of Days of Heat Provided", icon = icon("fire"), color = 'red', width=NULL)
-    }
-    else if (input$adoption_button == "15%"){
-      valueBox(800, "Thousands Days of Heat Provided", icon = icon("fire"), color = 'red', width=NULL)
-    }
+  output$co2SavedBox <- renderValueBox({
+    
+    co2_saved <- 
+      state_estimates_wide %>%
+      filter(proj_rate == input$adoption_button) %>% 
+      pull(CO2_lbs)
+    
+    valueBox(round(co2_saved/10^6, 1), "Millions of lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=NULL)
   })
   
-  your_plot <- reactive({
-    if(input$adoption_button == "Current") {
-      current_adoptrate
-    }
-    else if (input$adoption_button == "2%"){
-      two_adoptrate
-    }
-    else if (input$adoption_button == "15%"){
-      fifteen_adoptrate
-    }
+  output$heatingDaysBox <- renderValueBox({
+    valueBox(100, "Thousands of Days of Heat Provided", icon = icon("fire"), color = 'red', width=NULL)
   })
   
-  output$plot1 <- renderPlotly({
-    your_plot()
-  })
+  
   
 }
 
