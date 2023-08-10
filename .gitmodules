@@ -1,1 +1,4 @@
 
+[submodule "DSSG2023-Heating-Loads-Data"]
+	path = DSSG2023-Heating-Loads-Data
+	url = git@github.com:uwescience/DSSG2023-Heating-Loads-Data.git

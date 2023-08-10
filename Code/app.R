@@ -20,6 +20,7 @@ p_load(
 ## source functional R scripts
 source('make_tilegram.R')
 source('vis_state_data.R')
+source('vis_borough_data.R')
 
 ## UI
 ui <- dashboardPage(skin = "blue",
