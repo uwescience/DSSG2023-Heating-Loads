@@ -29,8 +29,8 @@ ui <- dashboardPage(skin = "blue",
                         menuItem("Motivation", tabName = "motivation", icon = icon("file")),      
                         menuItem("Adoption Rate Projections", tabName = "statewide", icon = icon("chart-line")),
                         menuItem("Projections", tabName = "proj", icon = icon("money-bill"),
-                                 menuSubItem("Feasibility", tabName = "sub_feas"), 
                                  menuSubItem("Economic", tabName = "sub_ec"),
+                                 menuSubItem("Feasibility", tabName = "sub_feas"), 
                                  menuSubItem("Environmental", tabName = "sub_env")),
                         menuItem("Case Studies", tabName = "case", icon = icon("map-marker"))
                       )
@@ -76,33 +76,62 @@ ui <- dashboardPage(skin = "blue",
                                              ticks = FALSE, radioGroupButtons(
                                                inputId = "buttons_fuel",
                                                label = "Level of increase:",
-                                               choices = c("Current", "Medium", "Large"),
+                                               choiceNames = c("Current", "Medium", "Large"),
+                                               choiceValues = c("current", "mid", "high"),
                                                status = "primary", size = 'normal', justified = TRUE), width = NULL),
                                          box(title = HTML("<b>Rebate Projections</b>"), solidHeader = TRUE,
                                              "Toggle between currently provided rebates, moderate increases in projected rebates, and large increases in projected rebates", 
                                              ticks = FALSE, radioGroupButtons(
                                                inputId = "buttons_rebate",
                                                label = "Level of increase:",
-                                               choices = c("Current", "Medium", "Large"),
+                                               choiceNames = c("Current", "Medium", "Large"),
+                                               choiceValues = c("current", "mid", "high"),
                                                status = "primary", size = 'normal', justified = TRUE), width = NULL),
                                          box(title = HTML("<b>Climate Change Projections</b>"), solidHeader = TRUE,
                                              "Toggle between current climate conditions, moderate increases in projected temperature increases, and large increases in projected temperature increases", 
                                              ticks = FALSE, radioGroupButtons(
                                                inputId = "buttons_climate",
                                                label = "Level of increase:",
-                                               choices = c("Current", "Medium", "Large"),
+                                               choiceNames = c("Current", "Medium", "Large"),
+                                               choiceValues = c("current", "mid", "high"),
                                                status = "primary", size = 'normal', justified = TRUE), width = NULL),
                                   ),
                                   column(width = 8,
-                                         plotlyOutput("plot2", height = 615),
+                                         plotlyOutput("borough_proj_NPV", height = 615),
                                          box(title = HTML("<b>What is Net Present Value?</b>"), 
                                              HTML("<b>Cost-effectiveness</b> is expressed as <b>Net Present Value</b>, or the sum of the benefits minus the costs of a project over the life of a project. For example, a NPV value of 10K means that an average household in that borough will save $10k from installing a heat pump over the life of a heat pump (~14 years)"),
                                              collapsible = TRUE, collapsed = TRUE)
                                   )
                                 )
                         ),
+                        tabItem(tabName = "sub_feas",
+                                fluidRow(
+                                  column(width=4, 
+                                         box(title = HTML("<b>Climate Change Projections</b>"), solidHeader = TRUE,
+                                             "Toggle between current climate conditions, moderate increases in projected temperature increases, and large increases in projected temperature increases", 
+                                             ticks = FALSE, radioGroupButtons(
+                                               inputId = "buttons_climate",
+                                               label = "Level of increase:",
+                                               choiceNames = c("Current", "Medium", "Large"),
+                                               choiceValues = c("current", "mid", "high"),
+                                               status = "primary", size = 'normal', justified = TRUE), width = NULL),
+                                  ),
+                                  column(width = 8,
+                                         plotlyOutput("borough_proj_HeatingDays", height = 615)
+                                  )
+                                )
+                        ),
                         tabItem(tabName = "sub_env",
-                                plotlyOutput("plot3")
+                                fluidRow(
+                                  column(width = 4,
+                                         box(width = 16, "Global energy-related carbon dioxide emissions rose by 6% in 2021 to 36.3 billion tonnes, their highest ever level, as the world economy rebounded strongly from the Covid-19 crisis and relied heavily on coal to power that growth, according to new IEA analysis released today. 
+                                         The increase in global CO2 emissions of over 2 billion tonnes was the largest in history in absolute terms, more than offsetting the previous year’s pandemic-induced decline, the IEA analysis shows. The recovery of energy demand in 2021 was compounded by adverse weather and energy market conditions – notably the spikes in natural gas prices – which led to more coal being burned despite renewable power generation registering its largest ever growth.")
+                                  ),
+                                  column(width = 8,
+                                         plotlyOutput("borough_proj_CO2")
+                                  )
+                                )
+                                
                         ),
                         tabItem(tabName = "case",
                                 h2("Census block visualizations in progress")
@@ -114,11 +143,14 @@ ui <- dashboardPage(skin = "blue",
 ## server
 server <- function(input, output) {
   
+  ## State-level adoption tilegram
   output$adop_proj_plot <- renderPlotly({
+    
     vis_adopt_proj(input$adoption_button)
+    
   })
   
-  
+  ## State-level aggregate outcomes
   output$moneySavedBox <- renderValueBox({
     
     money_saved <- 
@@ -127,6 +159,7 @@ server <- function(input, output) {
       pull(NPV)
     
     valueBox(round(money_saved/10^6, 1), "Millions of $ Saved", icon = icon("dollar-sign"), color = 'blue', width=NULL)
+    
   })
   
   output$co2SavedBox <- renderValueBox({
@@ -137,21 +170,46 @@ server <- function(input, output) {
       pull(CO2_lbs)
     
     valueBox(round(co2_saved/10^6, 1), "Millions of lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=NULL)
+    
   })
   
   output$heatingDaysBox <- renderValueBox({
+    
     valueBox(100, "Thousands of Days of Heat Provided", icon = icon("fire"), color = 'red', width=NULL)
+    
   })
   
+  ## Borough-level projections for NPV
+  output$borough_proj_NPV <- renderPlotly({
+    
+    vis_borough_proj(outcome = "NPV", 
+                     Rebate_dol = input$buttons_fuel, 
+                     Fuel_Esc_Rate = input$buttons_rebate, 
+                     Temp_Projection = input$buttons_climate)
+    
+  })
   
+  ## Borough-level projections for CO2
+  output$borough_proj_CO2 <- renderPlotly({
+    
+    vis_borough_proj(outcome = "CO2_lbs_saved", 
+                     Rebate_dol = input$buttons_fuel, 
+                     Fuel_Esc_Rate = input$buttons_rebate, 
+                     Temp_Projection = input$buttons_climate)
+    
+  })
+  
+  ## Borough-level projections for Heating Days
+  output$borough_proj_HeatingDays <- renderPlotly({
+    
+    vis_borough_proj(outcome = "Heating_Days_Above5", 
+                     Rebate_dol = input$buttons_fuel, 
+                     Fuel_Esc_Rate = input$buttons_rebate, 
+                     Temp_Projection = input$buttons_climate)
+    
+  })
   
 }
-
-
-
-
-
-
 
 ## run app 
 shinyApp(ui = ui, server = server)

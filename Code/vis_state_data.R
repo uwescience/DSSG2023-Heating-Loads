@@ -17,7 +17,6 @@ state_estimates_wide <-
   mutate(proj_rate = paste0("hp_", proj_rate)) %>%
   pivot_wider(names_from = outcome, values_from = estimate)
 
-
 ##### For tilegram visualization #####
 
 ## Read borough 
@@ -93,9 +92,9 @@ vis_adopt_proj <- function(proj_rate) {
       xaxis = list(title = NULL),
       yaxis = list(title = NULL),
       showlegend = FALSE,
-      autosize = F, 
-      width = 600, 
-      height = 680, 
+      autosize = F,
+      width = 600,
+      height = 680,
       margin = list(l = 30, r = 1, b = 1, t = 75, pad = 3)
     )
   
