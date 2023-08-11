@@ -27,7 +27,7 @@ source('www/theme.R')
 
 ## UI
 ui <- dashboardPage(#skin = "blue",
-                    dashboardHeader(title = HTML("<b>Heat Pump Adoption in Alaska</b>"), titleWidth = 540),
+                    dashboardHeader(title = HTML("<b>Heat Pump in Alaska</b>"), titleWidth = 740),
                     dashboardSidebar(
                       sidebarMenu(
                         menuItem("Motivation", tabName = "motivation", icon = icon("file")),      
@@ -218,7 +218,7 @@ server <- function(input, output) {
   ## Borough-level projections for Heating Days
   output$borough_proj_HeatingDays <- renderPlotly({
     
-    vis_borough_proj(outcome = "Heating_Days_Above5", 
+    vis_borough_proj(outcome = "Heating_Days_Covered", 
                      Rebate_dol = input$buttons_fuel, 
                      Fuel_Esc_Rate = input$buttons_rebate, 
                      Temp_Projection = input$buttons_climate)

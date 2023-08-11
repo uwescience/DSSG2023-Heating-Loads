@@ -5,7 +5,7 @@ mytheme <- create_theme(
     light_blue = "#0F204B"
   ),
   adminlte_sidebar(
-    width = "540px",
+    width = "275px",
     dark_bg = "#D8DEE9",
     dark_hover_bg = "#FFB612",
     #dark_hover_bg = "#81A1C1",
