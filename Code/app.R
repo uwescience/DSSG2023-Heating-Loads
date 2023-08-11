@@ -53,7 +53,8 @@ ui <- dashboardPage(#skin = "blue",
                                          box(width = 6, title = HTML("<b>Navigating the Dashboard</b>"), "In the 'Adoption Rate Projections' tab, explore how current and project heat pump adoption numbers will affect state-wide metrics. In the 'Projections' tab, explore how Boroughs across the state compare in heating feasibility, economic benefits, and carbon emission reduction."),
                                          box(width = 12, title = HTML("<b>Interacting with Our Maps</b>"),
                                              HTML("Many of our visualizations are <b>Tilegrams</b>. A Tilegram, short for <i>Tiled Cartogram</i>, is a map made up of tiles where regions are proportional to a dataset. In our plots, regions are Census Boroughs and they are proportional to the number of people in that Borough. Tilegrams can represent demographic data more accurately than traditional geographic maps, but still retain a familiar shape. You can read more about tilegrams here [embed link].")),
-                                         HTML('<p><img src="map_comparison_image_option2.png" width="1000"/></p>'),
+                                         box(title = HTML("<i>Normal Map</i>"), HTML('<p><img src="ak_normalmap.png" width="500"/></p>')),
+                                         box(title = HTML("<b>Tilegram Map</b>"), HTML('<p><img src="ak_tilegram.png" width="500"/></p>'))
                                          )
                                 )
                         ),
