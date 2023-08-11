@@ -21,9 +21,11 @@ p_load(
 source('make_tilegram.R')
 source('vis_state_data.R')
 source('vis_borough_data.R')
+source('www/theme.R')
+
 
 ## UI
-ui <- dashboardPage(skin = "blue",
+ui <- dashboardPage(#skin = "blue",
                     dashboardHeader(title = HTML("<b>Heat Pump Adoption in Alaska: A Visualization Tool</b>"), titleWidth = 540),
                     dashboardSidebar(
                       sidebarMenu(
@@ -37,6 +39,8 @@ ui <- dashboardPage(skin = "blue",
                       )
                     ),
                     dashboardBody(
+                      use_theme(mytheme),
+                      includeCSS("www/styles.css"),
                       # Boxes need to be put in a row (or column)
                       tabItems(
                         tabItem(tabName = "motivation",
@@ -46,7 +50,8 @@ ui <- dashboardPage(skin = "blue",
                                          box(title = HTML(" Many of our visualizations are <b>Tilegrams</b>"),
                                              width = NULL,
                                              HTML("A Tilegram, short for <i>Tiled Cartogram</i>, is a map made up of tiles where regions are proportional to a dataset. In our plots, regions are Census Boroughs and they are proportional to the number of people in that Borough. Tilegrams can represent demographic data more accurately than traditional geographic maps, but still retain a familiar shape. You can read more about tilegrams here <insert a link?>")),
-                                         imageOutput("image"))
+                                         HTML('<p><img src="map_comparison_image_option2.png" width="1000"/></p>')
+                                         )
                                 )
                         ),
                         tabItem(tabName = "statewide",

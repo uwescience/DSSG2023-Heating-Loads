@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto Slab&display=swap');
+
+.irs--shiny .irs-bar, .irs--shiny .irs-single {
+  border: #FFB612;
+  background: #0F204B;
+}
+
+h2, .main-header .logo {
+  font-family: 'Prompt', sans-serif;
+}
+
+body {
+  font-family: 'Roboto Slab', sans-serif;
+}
