@@ -14,7 +14,8 @@ p_load(
   "sf",
   "shiny",
   "shinydashboard",
-  "shinyWidgets"
+  "shinyWidgets",
+  "fresh"
 )
 
 ## source functional R scripts
@@ -26,7 +27,7 @@ source('www/theme.R')
 
 ## UI
 ui <- dashboardPage(#skin = "blue",
-                    dashboardHeader(title = HTML("<b>Heat Pump Adoption in Alaska: A Visualization Tool</b>"), titleWidth = 540),
+                    dashboardHeader(title = HTML("<b>Heat Pump Adoption in Alaska</b>"), titleWidth = 540),
                     dashboardSidebar(
                       sidebarMenu(
                         menuItem("Motivation", tabName = "motivation", icon = icon("file")),      
@@ -35,7 +36,8 @@ ui <- dashboardPage(#skin = "blue",
                                  menuSubItem("Economic", tabName = "sub_ec"),
                                  menuSubItem("Feasibility", tabName = "sub_feas"), 
                                  menuSubItem("Environmental", tabName = "sub_env")),
-                        menuItem("Case Studies", tabName = "case", icon = icon("map-marker"))
+                        menuItem("Case Studies", tabName = "case", icon = icon("map-marker")),
+                        menuItem("Frequently Asked Questions", tabName = "faq", icon = icon("question-circle"))
                       )
                     ),
                     dashboardBody(
@@ -46,11 +48,12 @@ ui <- dashboardPage(#skin = "blue",
                         tabItem(tabName = "motivation",
                                 fluidRow(
                                   column(width = 12,
-                                         titlePanel("Guide to Exploring the Visualizations on this Dashboard"),
-                                         box(title = HTML(" Many of our visualizations are <b>Tilegrams</b>"),
-                                             width = NULL,
-                                             HTML("A Tilegram, short for <i>Tiled Cartogram</i>, is a map made up of tiles where regions are proportional to a dataset. In our plots, regions are Census Boroughs and they are proportional to the number of people in that Borough. Tilegrams can represent demographic data more accurately than traditional geographic maps, but still retain a familiar shape. You can read more about tilegrams here <insert a link?>")),
-                                         HTML('<p><img src="map_comparison_image_option2.png" width="1000"/></p>')
+                                         titlePanel("An Interactive Visualization Tool to Explore Heat Pump Adoption in Alaska"),
+                                         box(width = 6, title = HTML("<b>Why Study Heat Pumps?</b>"), "Replacing traditional heating sources with heat pumps can save money and carbon emissions across the state of Alaska. We aim to visualize where in Alaska heat pumps are likely to be most feasible, economic, and green. Read more about our project's motivation, aims, and methods on our website [embed link]."),
+                                         box(width = 6, title = HTML("<b>Navigating the Dashboard</b>"), "In the 'Adoption Rate Projections' tab, explore how current and project heat pump adoption numbers will affect state-wide metrics. In the 'Projections' tab, explore how Boroughs across the state compare in heating feasibility, economic benefits, and carbon emission reduction."),
+                                         box(width = 12, title = HTML("<b>Interacting with Our Maps</b>"),
+                                             HTML("Many of our visualizations are <b>Tilegrams</b>. A Tilegram, short for <i>Tiled Cartogram</i>, is a map made up of tiles where regions are proportional to a dataset. In our plots, regions are Census Boroughs and they are proportional to the number of people in that Borough. Tilegrams can represent demographic data more accurately than traditional geographic maps, but still retain a familiar shape. You can read more about tilegrams here [embed link].")),
+                                         HTML('<p><img src="map_comparison_image_option2.png" width="1000"/></p>'),
                                          )
                                 )
                         ),
@@ -141,6 +144,12 @@ ui <- dashboardPage(#skin = "blue",
                         ),
                         tabItem(tabName = "case",
                                 h2("Census block visualizations in progress")
+                        ),
+                        tabItem(tabName = "faq",
+                                box(width = NULL, title = HTML("<b>Q: How was the current number of heat pumps in Alaska estimated?</b>"), HTML("<b>A</b>: We created a dataset of the current (2023) number of heat pumps estimated to be in Alaska by borough. This data was crowdsourced from energy experts and Alaska Heat Smart. If we were unable to get estimates for a specific borough, we assumed there to be no heat pumps in that borough. The aim of this dataset was not to be as accurate as possible, but to capture the general distribution of heat pumps currently in Alaska and provide a starting point for the scenarios in which we imagine a larger percentage of the population has heat pumps.")),
+                                box(width = NULL, title = HTML("<b>Q: How were heat pump adoption scenario projections structured / designed?</b>"), HTML("<b>A</b>: To imagine what heat pump distribution could look like across the state of Alaska, we needed an algorithm that allowed us to distribute heat pumps proportionally at the borough level. We believe that proportional distribution of heat pumps according to some measure is a more realistic scenario than equal distribution across all boroughs. The D’hondt method is an apportionment method developed to distribute seats in a legislative body proportionally to some measure, typically votes or population. Different apportionment methods have been developed because exact proportionally is often not possible due to the issue of fractional seats. These different methods have different properties, and empirical studies show that the D’hondt method is one of the least proportional apportionment methods, favoring large parties with the most votes. We determined that this property does not present concerns for our application, and may even be favorable. We used the D’hondt method to distribute heat pumps by borough in Alaska according to heat pump efficiency (a proxy for feasibility) and population. We recognize that there are many factors that contribute to whether or not a heat pump is installed, but we believe the most important factor is feasibility, or how well a heat pump can actually heat a space. After all, if a heat pump cannot be used as a primary heating source, the motivation to install one greatly decreases. We also wanted to incorporate population to a lesser degree given economies of scale; we believe that boroughs with larger populations will have an easier time working with installers and maintainers. To combine these two factors into one measure, we used the following formula: $rank(efficiency) * rank(efficiency) * rank(population)$. This priorities efficiency over population and addresses the problem that the distribution of heat pump efficiency across the boroughs is uniform.")),
+                                box(width = NULL, title = HTML("<b>Q: How are estimates for the three dimensions calculated? <b/>"), HTML("<b>A<b/>:")),
+                                box(width = NULL, title = HTML("<b>Q: How can I look at my specific neighborhood?<b/>"), HTML("<b>A<b/>:"))
                         )
                       ),
                     )
