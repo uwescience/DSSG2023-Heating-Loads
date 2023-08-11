@@ -1,0 +1,256 @@
+,census_city,census_area,HOUSEUNITS,HU_prop
+148,Nelson Lagoon CDP,Aleutians East Borough,32.0,0.044630404463040445
+7,Akutan city,Aleutians East Borough,44.0,0.061366806136680614
+34,Cold Bay city,Aleutians East Borough,82.0,0.11436541143654114
+146,False Pass city,Aleutians East Borough,40.0,0.05578800557880056
+147,King Cove city,Aleutians East Borough,229.0,0.3193863319386332
+149,Sand Point city,Aleutians East Borough,290.0,0.40446304044630405
+6,Adak city,Aleutians West Census Area,500.0,0.26001040041601664
+12,Atka city,Aleutians West Census Area,43.0,0.02236089443577743
+150,Nikolski CDP,Aleutians West Census Area,23.0,0.011960478419136765
+151,St. George city,Aleutians West Census Area,61.0,0.031721268850754034
+152,St. Paul city,Aleutians West Census Area,190.0,0.09880395215808632
+153,Unalaska city,Aleutians West Census Area,1106.0,0.5751430057202288
+0,Anchorage municipality,Anchorage municipality,113032.0,1.0
+111,Tuluksak CDP,Bethel Census Area,99.0,0.017770597738287562
+110,Toksook Bay city,Bethel Census Area,135.0,0.024232633279483037
+109,Quinhagak city,Bethel Census Area,187.0,0.033566684616765395
+108,Platinum city,Bethel Census Area,31.0,0.005564530604918327
+107,Oscarville CDP,Bethel Census Area,30.0,0.005385029617662897
+106,Nunapitchuk city,Bethel Census Area,132.0,0.023694130317716746
+105,Nightmute city,Bethel Census Area,61.0,0.010949560222581225
+103,Newtok CDP,Bethel Census Area,72.0,0.012924071082390954
+102,Napaskiak city,Bethel Census Area,135.0,0.024232633279483037
+101,Napakiak city,Bethel Census Area,114.0,0.02046311254711901
+100,Mekoryuk city,Bethel Census Area,86.0,0.015437084903966973
+89,Akiachak CDP,Bethel Census Area,183.0,0.03284868066774367
+98,Kwethluk city,Bethel Census Area,231.0,0.041464728056004305
+97,Kongiganak CDP,Bethel Census Area,102.0,0.01830910070005385
+10,Aniak city,Bethel Census Area,214.0,0.038413211272662
+18,Bethel city,Bethel Census Area,2364.0,0.4243403338718363
+112,Tuntutuliak CDP,Bethel Census Area,106.0,0.01902710464907557
+90,Akiak city,Bethel Census Area,98.0,0.01759109675103213
+91,Atmautluak CDP,Bethel Census Area,70.0,0.012565069107880094
+92,Chefornak city,Bethel Census Area,99.0,0.017770597738287562
+93,Eek city,Bethel Census Area,101.0,0.01812959971279842
+94,Goodnews Bay city,Bethel Census Area,82.0,0.014719080954945252
+99,Kwigillingok CDP,Bethel Census Area,106.0,0.01902710464907557
+113,Tununak CDP,Bethel Census Area,90.0,0.01615508885298869
+120,Upper Kalskag city,Bethel Census Area,74.0,0.013283073056901813
+115,Crooked Creek CDP,Bethel Census Area,47.0,0.008436546401005206
+114,Chuathbaluk city,Bethel Census Area,41.0,0.007359540477472626
+95,Kasigluk CDP,Bethel Census Area,121.0,0.021719619457907017
+119,Stony River CDP,Bethel Census Area,26.0,0.004667025668641177
+96,Kipnuk CDP,Bethel Census Area,176.0,0.031592173756955666
+117,Lower Kalskag city,Bethel Census Area,82.0,0.014719080954945252
+116,Lime Village CDP,Bethel Census Area,27.0,0.004846526655896607
+118,Sleetmute CDP,Bethel Census Area,49.0,0.008795548375516065
+131,South Naknek CDP,Bristol Bay Borough,130.0,0.14038876889848811
+130,Naknek CDP,Bristol Bay Borough,460.0,0.49676025917926564
+129,King Salmon CDP,Bristol Bay Borough,336.0,0.36285097192224625
+22,Cantwell CDP,Denali Borough,200.0,0.1893939393939394
+31,Anderson city,Denali Borough,145.0,0.13731060606060605
+184,Healy CDP,Denali Borough,711.0,0.6732954545454546
+268,Aleknagik city,Dillingham Census Area,132.0,0.06907378335949764
+128,Twin Hills CDP,Dillingham Census Area,36.0,0.018838304552590265
+126,New Stuyahok city,Dillingham Census Area,130.0,0.06802721088435375
+125,Manokotak city,Dillingham Census Area,138.0,0.07221350078492936
+124,Koliganek CDP,Dillingham Census Area,66.0,0.03453689167974882
+122,Dillingham city,Dillingham Census Area,1047.0,0.5478806907378336
+121,Clark's Point city,Dillingham Census Area,50.0,0.026164311878597593
+127,Togiak city,Dillingham Census Area,261.0,0.13657770800627944
+123,Ekwok city,Dillingham Census Area,51.0,0.026687598116169546
+273,Salcha CDP,Fairbanks North Star Borough,585.0,0.037058152793614595
+265,Fairbanks city,Fairbanks North Star Borough,13056.0,0.8270619536297985
+272,North Pole city,Fairbanks North Star Borough,916.0,0.058026099075129865
+274,Ester CDP,Fairbanks North Star Borough,1229.0,0.07785379450145699
+190,Haines CDP,Haines Borough,902.0,1.0
+196,Klukwan CDP,Hoonah-Angoon Census Area,70.0,0.04672897196261682
+194,Pelican city,Hoonah-Angoon Census Area,77.0,0.0514018691588785
+193,Hoonah city,Hoonah-Angoon Census Area,399.0,0.26635514018691586
+192,Gustavus city,Hoonah-Angoon Census Area,488.0,0.3257676902536716
+191,Elfin Cove CDP,Hoonah-Angoon Census Area,28.0,0.018691588785046728
+9,Angoon city,Hoonah-Angoon Census Area,256.0,0.17089452603471295
+198,Tenakee Springs city,Hoonah-Angoon Census Area,180.0,0.12016021361815754
+13,Juneau city and borough,Juneau City and Borough,13055.0,1.0
+233,Port Graham CDP,Kenai Peninsula Borough,108.0,0.005884275907159202
+243,Nikolaevsk CDP,Kenai Peninsula Borough,150.0,0.008172605426610004
+235,Anchor Point CDP,Kenai Peninsula Borough,1239.0,0.06750572082379863
+236,Clam Gulch CDP,Kenai Peninsula Borough,160.0,0.008717445788384003
+237,Homer city,Kenai Peninsula Borough,2692.0,0.14667102538956087
+238,Hope CDP,Kenai Peninsula Borough,197.0,0.010733355126947805
+239,Kasilof CDP,Kenai Peninsula Borough,271.0,0.014765173804075406
+35,Cooper Landing CDP,Kenai Peninsula Borough,395.0,0.021521194290073008
+240,Kenai city,Kenai Peninsula Borough,3166.0,0.17249645853764847
+242,Nikiski CDP,Kenai Peninsula Borough,1998.0,0.10885910428244525
+232,Nanwalek CDP,Kenai Peninsula Borough,73.0,0.003977334640950202
+234,Seward city,Kenai Peninsula Borough,1124.0,0.06124005666339762
+241,Moose Pass CDP,Kenai Peninsula Borough,137.0,0.007464312956303803
+245,Seldovia city,Kenai Peninsula Borough,218.0,0.011877519886673205
+246,Soldotna city,Kenai Peninsula Borough,1968.0,0.10722458319712325
+247,Sterling CDP,Kenai Peninsula Borough,3347.0,0.18235806908575788
+244,Ninilchik CDP,Kenai Peninsula Borough,967.0,0.05268606298354582
+248,Tyonek CDP,Kenai Peninsula Borough,144.0,0.007845701209545603
+204,Ketchikan city,Ketchikan Gateway Borough,3731.0,0.9668307851775071
+206,Saxman city,Ketchikan Gateway Borough,128.0,0.033169214822492875
+263,Ouzinkie city,Kodiak Island Borough,88.0,0.033460076045627375
+262,Old Harbor city,Kodiak Island Borough,105.0,0.039923954372623575
+261,Larsen Bay city,Kodiak Island Borough,70.0,0.026615969581749048
+264,Port Lions city,Kodiak Island Borough,113.0,0.042965779467680605
+259,Karluk CDP,Kodiak Island Borough,21.0,0.007984790874524715
+258,Chiniak CDP,Kodiak Island Borough,28.0,0.01064638783269962
+257,Akhiok city,Kodiak Island Borough,27.0,0.01026615969581749
+260,Kodiak city,Kodiak Island Borough,2178.0,0.8281368821292776
+133,Egegik city,Lake and Peninsula Borough,256.0,0.24105461393596986
+134,Igiugig CDP,Lake and Peninsula Borough,19.0,0.017890772128060263
+135,Iliamna CDP,Lake and Peninsula Borough,58.0,0.054613935969868174
+136,Kokhanok CDP,Lake and Peninsula Borough,65.0,0.06120527306967985
+137,Levelock CDP,Lake and Peninsula Borough,48.0,0.04519774011299435
+138,Newhalen city,Lake and Peninsula Borough,51.0,0.0480225988700565
+140,Pedro Bay CDP,Lake and Peninsula Borough,33.0,0.031073446327683617
+142,Pilot Point city,Lake and Peninsula Borough,65.0,0.06120527306967985
+143,Port Alsworth CDP,Lake and Peninsula Borough,74.0,0.0696798493408663
+144,Port Heiden city,Lake and Peninsula Borough,56.0,0.05273069679849341
+145,Ugashik CDP,Lake and Peninsula Borough,38.0,0.035781544256120526
+132,Chignik Lake CDP,Lake and Peninsula Borough,50.0,0.047080979284369114
+139,Nondalton city,Lake and Peninsula Borough,94.0,0.08851224105461393
+27,Chignik city,Lake and Peninsula Borough,105.0,0.09887005649717515
+141,Perryville CDP,Lake and Peninsula Borough,50.0,0.047080979284369114
+249,Houston city,Matanuska-Susitna Borough,973.0,0.07173400176938956
+256,Willow CDP,Matanuska-Susitna Borough,1912.0,0.14096136832792686
+255,Wasilla city,Matanuska-Susitna Borough,3277.0,0.24159539958714243
+254,Trapper Creek CDP,Matanuska-Susitna Borough,499.0,0.03678855794750811
+253,Talkeetna CDP,Matanuska-Susitna Borough,744.0,0.05485107637864937
+252,Sutton-Alpine CDP,Matanuska-Susitna Borough,494.0,0.03641993512238278
+251,Skwentna CDP,Matanuska-Susitna Borough,353.0,0.026024771453848423
+250,Palmer city,Matanuska-Susitna Borough,2281.0,0.16816573282217634
+25,Chickaloon CDP,Matanuska-Susitna Borough,251.0,0.018504865821291655
+21,Big Lake CDP,Matanuska-Susitna Borough,2780.0,0.20495429076968447
+68,St. Michael city,Nome Census Area,117.0,0.035659859798841814
+66,Koyuk city,Nome Census Area,99.0,0.030173727522096922
+65,Golovin city,Nome Census Area,64.0,0.019506248095092958
+64,Gambell city,Nome Census Area,200.0,0.0609570252971655
+67,Nome city,Nome Census Area,1503.0,0.45809204510819873
+62,Diomede city,Nome Census Area,47.0,0.014324900944833891
+69,Savoonga city,Nome Census Area,185.0,0.05638524839987809
+61,Brevig Mission city,Nome Census Area,103.0,0.031392868028040234
+63,Elim city,Nome Census Area,105.0,0.03200243828101189
+70,Shaktoolik city,Nome Census Area,70.0,0.021334958854007924
+75,Wales city,Nome Census Area,51.0,0.015544041450777202
+72,Stebbins city,Nome Census Area,153.0,0.046632124352331605
+73,Teller city,Nome Census Area,86.0,0.026211520877781166
+74,Unalakleet city,Nome Census Area,268.0,0.08168241389820177
+76,White Mountain city,Nome Census Area,79.0,0.024078024992380372
+71,Shishmaref city,Nome Census Area,151.0,0.04602255409935995
+41,Kaktovik city,North Slope Borough,87.0,0.035758323057953144
+39,Atqasuk city,North Slope Borough,68.0,0.02794903411426223
+43,Nuiqsut city,North Slope Borough,136.0,0.05589806822852446
+44,Point Hope city,North Slope Borough,221.0,0.09083436087135224
+46,Point Lay CDP,North Slope Borough,70.0,0.02877106452938759
+17,Barrow city,North Slope Borough,1554.0,0.6387176325524044
+269,Anaktuvuk Pass city,North Slope Borough,118.0,0.04849979449239622
+48,Wainwright city,North Slope Borough,179.0,0.07357172215371968
+57,Noatak CDP,Northwest Arctic Borough,114.0,0.05015398152221733
+56,Kotzebue city,Northwest Arctic Borough,1160.0,0.5103387593488782
+55,Kobuk city,Northwest Arctic Borough,51.0,0.02243730752309723
+53,Kiana city,Northwest Arctic Borough,143.0,0.06291245050593929
+52,Deering city,Northwest Arctic Borough,61.0,0.026836779586449627
+51,Buckland city,Northwest Arctic Borough,101.0,0.044434667839859214
+50,Ambler city,Northwest Arctic Borough,99.0,0.04355477342718874
+59,Selawik city,Northwest Arctic Borough,201.0,0.08842938847338319
+60,Shungnak city,Northwest Arctic Borough,73.0,0.032116146062472505
+58,Noorvik city,Northwest Arctic Borough,171.0,0.075230972283326
+54,Kivalina city,Northwest Arctic Borough,99.0,0.04355477342718874
+201,Kake city,Petersburg Borough,290.0,0.1695906432748538
+202,Petersburg city,Petersburg Borough,1356.0,0.7929824561403509
+203,Port Alexander city,Petersburg Borough,64.0,0.03742690058479532
+215,Port Protection CDP,Prince of Wales-Hyder Census Area,43.0,0.017359709325797335
+212,Kasaan city,Prince of Wales-Hyder Census Area,44.0,0.017763423496164714
+33,Coffman Cove city,Prince of Wales-Hyder Census Area,168.0,0.06782398062171982
+207,Metlakatla CDP,Prince of Wales-Hyder Census Area,527.0,0.2127573677836092
+208,Hyder CDP,Prince of Wales-Hyder Census Area,90.0,0.036334275333064193
+276,Naukati Bay CDP,Prince of Wales-Hyder Census Area,60.0,0.024222850222042795
+275,Whale Pass CDP,Prince of Wales-Hyder Census Area,61.0,0.024626564392410174
+216,Thorne Bay city,Prince of Wales-Hyder Census Area,354.0,0.14291481631005248
+209,Hollis CDP,Prince of Wales-Hyder Census Area,73.0,0.029471134436818733
+214,Point Baker CDP,Prince of Wales-Hyder Census Area,18.0,0.0072668550666128385
+213,Klawock city,Prince of Wales-Hyder Census Area,363.0,0.1465482438433589
+210,Craig city,Prince of Wales-Hyder Census Area,537.0,0.21679450948728302
+211,Hydaburg city,Prince of Wales-Hyder Census Area,139.0,0.056116269681065804
+199,Sitka city and borough,Sitka City and Borough,4102.0,1.0
+197,Skagway CDP,Skagway Municipality,590.0,1.0
+26,Chicken CDP,Southeast Fairbanks Census Area,16.0,0.009981285090455396
+182,Dot Lake CDP,Southeast Fairbanks Census Area,23.0,0.014348097317529632
+189,Tok CDP,Southeast Fairbanks Census Area,724.0,0.45165315034310666
+187,Tanacross CDP,Southeast Fairbanks Census Area,73.0,0.045539613225202745
+186,Northway CDP,Southeast Fairbanks Census Area,38.0,0.023705552089831567
+183,Eagle city,Southeast Fairbanks Census Area,150.0,0.09357454772301933
+20,Delta Junction city,Southeast Fairbanks Census Area,517.0,0.32252027448534
+188,Tetlin CDP,Southeast Fairbanks Census Area,62.0,0.03867747972551466
+221,Kenny Lake CDP,Valdez-Cordova Census Area,258.0,0.049529660203493954
+29,Chitina CDP,Valdez-Cordova Census Area,96.0,0.01842964100595124
+36,Copper Center CDP,Valdez-Cordova Census Area,199.0,0.038203110001919754
+37,Cordova city,Valdez-Cordova Census Area,1100.0,0.21117296985985795
+217,Chistochina CDP,Valdez-Cordova Census Area,68.0,0.013054329045882128
+218,Gakona CDP,Valdez-Cordova Census Area,131.0,0.025148780956037627
+219,Glennallen CDP,Valdez-Cordova Census Area,336.0,0.06450374352082934
+220,Gulkana CDP,Valdez-Cordova Census Area,60.0,0.011518525628719524
+222,McCarthy CDP,Valdez-Cordova Census Area,74.0,0.01420618160875408
+231,Whittier city,Valdez-Cordova Census Area,280.0,0.05375311960069111
+224,Paxson CDP,Valdez-Cordova Census Area,179.0,0.034363601459013245
+225,Slana CDP,Valdez-Cordova Census Area,205.0,0.03935496256479171
+226,Tazlina CDP,Valdez-Cordova Census Area,165.0,0.031675945478978694
+227,Tonsina CDP,Valdez-Cordova Census Area,79.0,0.015166058744480706
+228,Chenega CDP,Valdez-Cordova Census Area,51.0,0.009790746784411596
+229,Tatitlek CDP,Valdez-Cordova Census Area,75.0,0.014398157035899405
+230,Valdez city,Valdez-Cordova Census Area,1763.0,0.3384526780572087
+223,Mentasta Lake CDP,Valdez-Cordova Census Area,90.0,0.017277788443079287
+84,Pitkas Point CDP,Wade Hampton Census Area,37.0,0.018724696356275303
+87,Scammon Bay city,Wade Hampton Census Area,105.0,0.05313765182186235
+88,Nunam Iqua city,Wade Hampton Census Area,46.0,0.02327935222672065
+86,St. Mary's city,Wade Hampton Census Area,209.0,0.10576923076923077
+85,Russian Mission city,Wade Hampton Census Area,74.0,0.03744939271255061
+267,Alakanuk city,Wade Hampton Census Area,186.0,0.09412955465587045
+83,Pilot Station city,Wade Hampton Census Area,137.0,0.06933198380566802
+79,Hooper Bay city,Wade Hampton Census Area,283.0,0.14321862348178138
+81,Marshall city,Wade Hampton Census Area,108.0,0.05465587044534413
+80,Kotlik city,Wade Hampton Census Area,148.0,0.07489878542510121
+78,Emmonak city,Wade Hampton Census Area,213.0,0.10779352226720648
+77,Chevak city,Wade Hampton Census Area,219.0,0.11082995951417005
+82,Mountain Village city,Wade Hampton Census Area,211.0,0.10678137651821862
+200,Wrangell city and borough,Wrangell City and Borough,1428.0,1.0
+195,Yakutat CDP,Yakutat City and Borough,383.0,1.0
+162,Beaver CDP,Yukon-Koyukuk Census Area,56.0,0.018494055482166448
+8,Allakaket city,Yukon-Koyukuk Census Area,58.0,0.01915455746367239
+11,Arctic Village CDP,Yukon-Koyukuk Census Area,85.0,0.028071334214002642
+271,Nenana city,Yukon-Koyukuk Census Area,215.0,0.07100396301188903
+181,Wiseman CDP,Yukon-Koyukuk Census Area,25.0,0.008256274768824307
+180,Tanana city,Yukon-Koyukuk Census Area,136.0,0.04491413474240423
+179,Stevens Village CDP,Yukon-Koyukuk Census Area,52.0,0.017173051519154558
+178,Ruby city,Yukon-Koyukuk Census Area,108.0,0.035667107001321
+177,Rampart CDP,Yukon-Koyukuk Census Area,43.0,0.014200792602377808
+176,Nulato city,Yukon-Koyukuk Census Area,134.0,0.04425363276089828
+175,Minto CDP,Yukon-Koyukuk Census Area,94.0,0.031043593130779392
+174,Manley Hot Springs CDP,Yukon-Koyukuk Census Area,116.0,0.03830911492734478
+173,Lake Minchumina CDP,Yukon-Koyukuk Census Area,36.0,0.011889035667107
+166,Alatna CDP,Yukon-Koyukuk Census Area,19.0,0.006274768824306473
+163,Birch Creek CDP,Yukon-Koyukuk Census Area,18.0,0.0059445178335535
+167,Evansville CDP,Yukon-Koyukuk Census Area,25.0,0.008256274768824307
+164,Fort Yukon city,Yukon-Koyukuk Census Area,325.0,0.10733157199471599
+168,Galena city,Yukon-Koyukuk Census Area,264.0,0.08718626155878467
+161,Takotna CDP,Yukon-Koyukuk Census Area,41.0,0.013540290620871863
+160,Shageluk city,Yukon-Koyukuk Census Area,53.0,0.01750330250990753
+159,Nikolai city,Yukon-Koyukuk Census Area,48.0,0.015852047556142668
+158,McGrath city,Yukon-Koyukuk Census Area,195.0,0.0643989431968296
+157,Holy Cross city,Yukon-Koyukuk Census Area,86.0,0.028401585204755615
+156,Grayling city,Yukon-Koyukuk Census Area,63.0,0.02080581241743725
+170,Huslia city,Yukon-Koyukuk Census Area,105.0,0.034676354029062086
+155,Anvik city,Yukon-Koyukuk Census Area,46.0,0.015191545574636724
+24,Chalkyitsik CDP,Yukon-Koyukuk Census Area,67.0,0.02212681638044914
+23,Central CDP,Yukon-Koyukuk Census Area,172.0,0.05680317040951123
+19,Bettles city,Yukon-Koyukuk Census Area,25.0,0.008256274768824307
+172,Koyukuk city,Yukon-Koyukuk Census Area,54.0,0.0178335535006605
+171,Kaltag city,Yukon-Koyukuk Census Area,87.0,0.028731836195508585
+169,Hughes city,Yukon-Koyukuk Census Area,40.0,0.013210039630118891
+30,Circle CDP,Yukon-Koyukuk Census Area,52.0,0.017173051519154558
+165,Venetie CDP,Yukon-Koyukuk Census Area,85.0,0.028071334214002642
