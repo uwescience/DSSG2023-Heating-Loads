@@ -172,8 +172,39 @@ vis_borough_barplot <- function(outcome = "NPV",
 
 }
 
+## Write another function to subset data based on scenarios and create bar plots/tables
+vis_borough_bartable <- function(outcome = "NPV", 
+                                 Rebate_dol = "current", 
+                                 Fuel_Esc_Rate = "current", 
+                                 Temp_Projection = "current") {
+  
+  ## Subset data based on combination of 3x3x3 projections 
+  borough_projs_subset <- 
+    borough_projs_toy %>%
+    filter(
+      Rebate_dol == !!Rebate_dol &
+        Fuel_Esc_Rate == !!Fuel_Esc_Rate &
+        Temp_Projection == !!Temp_Projection
+    )
+  
+  ## Make table
+  borough_proj_table <- 
+    plot_ly() %>%
+    # add the scatter layer 
+    add_trace(
+      data = borough_projs_subset,
+      type = "table",
+      header = list(
+        values = c("<b>Boroughs</b>", outcome)),
+      cells = list(
+        values = list(c(borough_projs_subset$name),c(round(borough_projs_subset[,outcome])))) # this needs to be changed, as the borough_projs_subset[,outcome] callresults in list of 1
+    )
+  
+  return(borough_proj_table)
+  
+}
 
-
+# need to add another bar plot function here
 
 
 
