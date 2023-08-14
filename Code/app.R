@@ -24,15 +24,14 @@ source('vis_state_data.R')
 source('vis_borough_data.R')
 source('www/theme.R')
 
-
 ## UI
 ui <- dashboardPage(#skin = "blue",
-                    dashboardHeader(title = HTML("<b>Heat Pump in Alaska</b>"), titleWidth = 740),
+                    dashboardHeader(title = "Heat Pumps in Alaska", titleWidth = 740),
                     dashboardSidebar(
                       sidebarMenu(
                         menuItem("Motivation", tabName = "motivation", icon = icon("file")),      
                         menuItem("Adoption Rate Projections", tabName = "statewide", icon = icon("chart-line")),
-                        menuItem("Projections", tabName = "proj", icon = icon("money-bill"),
+                        menuItem("Scenario Projections", tabName = "proj", icon = icon("money-bill"),
                                  menuSubItem("Economic", tabName = "sub_ec"),
                                  menuSubItem("Feasibility", tabName = "sub_feas"), 
                                  menuSubItem("Environmental", tabName = "sub_env")),
@@ -49,12 +48,21 @@ ui <- dashboardPage(#skin = "blue",
                                 fluidRow(
                                   column(width = 12,
                                          titlePanel("An Interactive Visualization Tool to Explore Heat Pump Adoption in Alaska"),
-                                         box(width = 6, title = HTML("<b>Why Study Heat Pumps?</b>"), "Replacing traditional heating sources with heat pumps can save money and carbon emissions across the state of Alaska. We aim to visualize where in Alaska heat pumps are likely to be most feasible, economic, and green. Read more about our project's motivation, aims, and methods on our website [embed link]."),
-                                         box(width = 6, title = HTML("<b>Navigating the Dashboard</b>"), "In the 'Adoption Rate Projections' tab, explore how current and project heat pump adoption numbers will affect state-wide metrics. In the 'Projections' tab, explore how Boroughs across the state compare in heating feasibility, economic benefits, and carbon emission reduction."),
+                                         box(width = 6, height = 175, title = HTML("<b>Why Study Heat Pumps?</b>"), "Replacing traditional heating sources with heat pumps can save money and carbon emissions across the state of Alaska. We aim to visualize where in Alaska heat pumps are likely to be most feasible, economic, and green. Read more about our project's motivation, aims, and methods on our website [embed link]."),
+                                         box(width = 6, height = 175, title = HTML("<b>Navigating the Dashboard</b>"), HTML("In the <i>Adoption Rate Projections</i> tab, explore how current and project heat pump adoption numbers will affect state-wide metrics. In the <i>Scenario Projections</i> tab, explore how Boroughs across the state compare in heating feasibility, economic benefits, and carbon emission reduction.")),
                                          box(width = 12, title = HTML("<b>Interacting with Our Maps</b>"),
-                                             HTML("Many of our visualizations are <b>Tilegrams</b>. A Tilegram, short for <i>Tiled Cartogram</i>, is a map made up of tiles where regions are proportional to a dataset. In our plots, regions are Census Boroughs and they are proportional to the number of people in that Borough. Tilegrams can represent demographic data more accurately than traditional geographic maps, but still retain a familiar shape. You can read more about tilegrams here [embed link].")),
-                                         box(title = HTML("<i>Normal Map</i>"), HTML('<p><img src="ak_normalmap.png" width="500"/></p>')),
-                                         box(title = HTML("<b>Tilegram Map</b>"), HTML('<p><img src="ak_tilegram.png" width="500"/></p>'))
+                                             HTML("Many of our visualizations are <b>Tilegrams</b>. A Tilegram, short for <i>Tiled Cartogram</i>, is a map made up of tiles where regions are proportional to a dataset. 
+                                                  In our plots, regions are Census Boroughs and they are proportional to the number of people in that Borough. 
+                                                  Tilegrams can represent demographic data more accurately than traditional geographic maps, but still retain a familiar shape. 
+                                                  You can read more about tilegrams here [embed link]. 
+                                                  <br>
+                                                  <br>
+                                                      <img src='ak_normalmap.png' alt='Snow' style='width:43.2%'>
+                                                      <img src='ak_tilegram.png' alt='Forest' style='width:40%'>
+                                                ")
+                                            )
+                                         # box(title = HTML("<i>Normal Map</i>"), HTML('<p><img src="ak_normalmap.png" width="500"/></p>')),
+                                         # box(title = HTML("<b>Tilegram Map</b>"), HTML('<p><img src="ak_tilegram.png" width="500"/></p>'))
                                          )
                                 )
                         ),
@@ -62,19 +70,32 @@ ui <- dashboardPage(#skin = "blue",
                                 fluidRow(
                                   column(width=4,
                                          box(title = HTML("<b>Projected Heat Pump Adoption Rates</b>"), solidHeader = TRUE,
-                                             "Toggle between current heat pump estimates, moderate projections (2% of households), and aggressive projections (15% of households)", 
+                                             HTML("<p>Toggle between current heat pump estimates, moderate projections (5% of households), and aggressive projections (15% of households)<br></p>"), 
                                              ticks = FALSE, radioGroupButtons(
                                                inputId = "adoption_button",
                                                label = NULL,
-                                               choiceNames = c("Current", "2%", "15%"),
-                                               choiceValues = c("hp_current", "hp_2p", "hp_15p"),
+                                               choiceNames = c("Current", "5%", "15%"),
+                                               choiceValues = c("hp_current", "hp_5p", "hp_15p"),
                                                status = "primary", size = 'normal', justified = TRUE), width = NULL), 
-                                         valueBoxOutput("moneySavedBox", width = NULL),
-                                         valueBoxOutput("co2SavedBox", width = NULL),
-                                         valueBoxOutput("heatingDaysBox", width = NULL),
+                                         box(
+                                           title = HTML("<b>State-wide Impact</b>"), solidHeader = TRUE,
+                                           valueBoxOutput("moneySavedBox", width = NULL),
+                                           valueBoxOutput("co2SavedBox", width = NULL),
+                                           valueBoxOutput("heatingDaysBox", width = NULL), width = NULL
+                                         ),
+                                         # box(
+                                         #   title = HTML("<b>Top-5 Boroughs by Adoption</b>"), solidHeader = TRUE,
+                                         #   plotlyOutput("state_barplot_adop"),
+                                         #   width = NULL, height = 297.5
+                                         # )
                                   ),
                                   column(width = 8,
-                                         plotlyOutput("adop_proj_plot")
+                                         box(
+                                           title = HTML("<b>Number of Heat Pumps Installed by Borough</b>"), solidHeader = TRUE,
+                                           div(plotlyOutput("adop_proj_plot"), align = "center"), 
+                                           width = NULL, 
+                                           height = 700
+                                         )
                                   )
                                 )
                         ),
@@ -88,7 +109,8 @@ ui <- dashboardPage(#skin = "blue",
                                                label = "Level of increase:",
                                                choiceNames = c("Current", "Medium", "Large"),
                                                choiceValues = c("current", "mid", "high"),
-                                               status = "primary", size = 'normal', justified = TRUE), width = NULL),
+                                               status = "primary", size = 'normal', justified = TRUE), 
+                                             width = NULL),
                                          box(title = HTML("<b>Rebate Projections</b>"), solidHeader = TRUE,
                                              "Toggle between currently provided rebates, moderate increases in projected rebates, and large increases in projected rebates", 
                                              ticks = FALSE, radioGroupButtons(
@@ -96,18 +118,28 @@ ui <- dashboardPage(#skin = "blue",
                                                label = "Level of increase:",
                                                choiceNames = c("Current", "Medium", "Large"),
                                                choiceValues = c("current", "mid", "high"),
-                                               status = "primary", size = 'normal', justified = TRUE), width = NULL),
-                                         box(title = HTML("<b>Climate Change Projections</b>"), solidHeader = TRUE,
-                                             "Toggle between current climate conditions, moderate increases in projected temperature increases, and large increases in projected temperature increases", 
-                                             ticks = FALSE, radioGroupButtons(
-                                               inputId = "buttons_climate",
-                                               label = "Level of increase:",
-                                               choiceNames = c("Current", "Medium", "Large"),
-                                               choiceValues = c("current", "mid", "high"),
-                                               status = "primary", size = 'normal', justified = TRUE), width = NULL),
+                                               status = "primary", size = 'normal', justified = TRUE), 
+                                             width = NULL),
+                                         box(
+                                           plotlyOutput("borough_barplot_NPV"), 
+                                           width = NULL,
+                                           height = 275
+                                         )
+                                         # box(title = HTML("<b>Climate Change Projections</b>"), solidHeader = TRUE,
+                                         #     "Toggle between current climate conditions, moderate increases in projected temperature increases, and large increases in projected temperature increases", 
+                                         #     ticks = FALSE, radioGroupButtons(
+                                         #       inputId = "buttons_climate",
+                                         #       label = "Level of increase:",
+                                         #       choiceNames = c("Current", "Medium", "Large"),
+                                         #       choiceValues = c("current", "mid", "high"),
+                                         #       status = "primary", size = 'normal', justified = TRUE), width = NULL),
                                   ),
                                   column(width = 8,
-                                         plotlyOutput("borough_proj_NPV", height = 615),
+                                         box(
+                                           div(plotlyOutput("borough_tilegram_NPV"), align = "center"), 
+                                           width = NULL, 
+                                           height = 700,
+                                         ),
                                          box(title = HTML("<b>What is Net Present Value?</b>"), 
                                              HTML("<b>Cost-effectiveness</b> is expressed as <b>Net Present Value</b>, or the sum of the benefits minus the costs of a project over the life of a project. For example, a NPV value of 10K means that an average household in that borough will save $10k from installing a heat pump over the life of a heat pump (~14 years)"),
                                              collapsible = TRUE, collapsed = TRUE)
@@ -127,7 +159,11 @@ ui <- dashboardPage(#skin = "blue",
                                                status = "primary", size = 'normal', justified = TRUE), width = NULL),
                                   ),
                                   column(width = 8,
-                                         plotlyOutput("borough_proj_HeatingDays", height = 615)
+                                         box(
+                                           div(plotlyOutput("borough_tilegram_HeatingDays"), align = "center"), 
+                                           width = NULL, 
+                                           height = 700,
+                                         )
                                   )
                                 )
                         ),
@@ -138,7 +174,11 @@ ui <- dashboardPage(#skin = "blue",
                                          The increase in global CO2 emissions of over 2 billion tonnes was the largest in history in absolute terms, more than offsetting the previous year’s pandemic-induced decline, the IEA analysis shows. The recovery of energy demand in 2021 was compounded by adverse weather and energy market conditions – notably the spikes in natural gas prices – which led to more coal being burned despite renewable power generation registering its largest ever growth.")
                                   ),
                                   column(width = 8,
-                                         plotlyOutput("borough_proj_CO2")
+                                         box(
+                                           div(plotlyOutput("borough_tilegram_CO2"), align = "center"), 
+                                           width = NULL, 
+                                           height = 700,
+                                         )
                                   )
                                 )
                                 
@@ -174,7 +214,8 @@ server <- function(input, output) {
       filter(proj_rate == input$adoption_button) %>% 
       pull(NPV)
     
-    valueBox(round(money_saved/10^6, 1), "Millions of $ Saved", icon = icon("dollar-sign"), color = 'blue', width=NULL)
+    valueBox(round(money_saved/10^6, 1), "Millions of $ Saved", 
+             icon = icon("dollar-sign"), color = 'blue', width=NULL)
     
   })
   
@@ -185,18 +226,31 @@ server <- function(input, output) {
       filter(proj_rate == input$adoption_button) %>% 
       pull(CO2_lbs)
     
-    valueBox(round(co2_saved/10^6, 1), "Millions of lbs CO2 Saved", icon = icon("seedling"), color = 'green', width=NULL)
+    valueBox(round(co2_saved/10^6, 1), "Millions of lbs CO2 Saved", 
+             icon = icon("seedling"), color = 'green', width=NULL)
     
   })
   
   output$heatingDaysBox <- renderValueBox({
     
-    valueBox(100, "Thousands of Days of Heat Provided", icon = icon("fire"), color = 'red', width=NULL)
+    heating_days_covered <- 
+      state_estimates_wide %>%
+      filter(proj_rate == input$adoption_button) %>% 
+      pull(Heating_Days_Covered)
+      
+    valueBox(paste(round(heating_days_covered*100, 1), "%"), "of Heat Days Covered", 
+             icon = icon("fire"), color = 'red', width=NULL)
     
   })
   
+  
+  output$state_barplot_adop <- renderPlotly({
+    vis_state_barplot(proj_rate = input$adoption_button)  
+    })
+  
+  
   ## Borough-level projections for NPV
-  output$borough_proj_NPV <- renderPlotly({
+  output$borough_tilegram_NPV <- renderPlotly({
     
     vis_borough_proj(outcome = "NPV", 
                      Rebate_dol = input$buttons_fuel, 
@@ -205,8 +259,17 @@ server <- function(input, output) {
     
   })
   
+  output$borough_barplot_NPV <- renderPlotly({
+    
+    vis_borough_barplot(outcome = "NPV", 
+                        Rebate_dol = input$buttons_fuel, 
+                        Fuel_Esc_Rate = input$buttons_rebate, 
+                        Temp_Projection = input$buttons_climate)
+    
+  })
+  
   ## Borough-level projections for CO2
-  output$borough_proj_CO2 <- renderPlotly({
+  output$borough_tilegram_CO2 <- renderPlotly({
     
     vis_borough_proj(outcome = "CO2_lbs_saved", 
                      Rebate_dol = input$buttons_fuel, 
@@ -215,13 +278,31 @@ server <- function(input, output) {
     
   })
   
+  output$borough_barplot_CO2 <- renderPlotly({
+    
+    vis_borough_barplot(outcome = "CO2_lbs_saved", 
+                        Rebate_dol = input$buttons_fuel, 
+                        Fuel_Esc_Rate = input$buttons_rebate, 
+                        Temp_Projection = input$buttons_climate)
+    
+  })
+  
   ## Borough-level projections for Heating Days
-  output$borough_proj_HeatingDays <- renderPlotly({
+  output$borough_tilegram_HeatingDays <- renderPlotly({
     
     vis_borough_proj(outcome = "Heating_Days_Covered", 
                      Rebate_dol = input$buttons_fuel, 
                      Fuel_Esc_Rate = input$buttons_rebate, 
                      Temp_Projection = input$buttons_climate)
+    
+  })
+  
+  output$borough_barplot_HeatingDays <- renderPlotly({
+    
+    vis_borough_barplot(outcome = "Heating_Days_Covered", 
+                        Rebate_dol = input$buttons_fuel, 
+                        Fuel_Esc_Rate = input$buttons_rebate, 
+                        Temp_Projection = input$buttons_climate)
     
   })
   

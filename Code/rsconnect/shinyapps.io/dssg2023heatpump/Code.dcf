@@ -1,0 +1,13 @@
+name: Code
+title: Code
+username: dssg2023heatpump
+account: dssg2023heatpump
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9602209
+bundleId: 7565395
+url: https://dssg2023heatpump.shinyapps.io/Code/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: legacy/.Rhistory|legacy/generate_ak_cartogram.R

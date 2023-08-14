@@ -1,0 +1,12 @@
+name: VisApp
+title: VisApp
+username: dssg2023heatpump
+account: dssg2023heatpump
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9602329
+bundleId: 7565945
+url: https://dssg2023heatpump.shinyapps.io/VisApp/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
