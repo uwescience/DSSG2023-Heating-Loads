@@ -1,3 +1,3 @@
 # DSSG2023-Heating-Loads
 
-This branch contains scripts to produce aggregate numbers from simulations. 
+This branch contains scripts to produce project visualizations, including the Alaska borough tilegram and Shiny dashboard.  
