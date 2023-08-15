@@ -8,7 +8,6 @@ mytheme <- create_theme(
     width = "275px",
     dark_bg = "#D8DEE9",
     dark_hover_bg = "#FFB612",
-    #dark_hover_bg = "#81A1C1",
     dark_color = "#0F204B",
     dark_hover_color = "#0F204B",
     dark_submenu_color = "#0F204B",

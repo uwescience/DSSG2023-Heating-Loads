@@ -42,7 +42,7 @@ adopt_proj_polygon <-
 
 ## Write a function to visualize adoption rates
 
-vis_adopt_proj <- function(proj_rate) {
+vis_adopt_proj <- function(proj_rate, absolute = TRUE) {
   
   ## Get absolute and relative numbers of HP
   hp_absolute <- 
@@ -63,10 +63,10 @@ vis_adopt_proj <- function(proj_rate) {
       data = adopt_proj_df,
       type = "scatter",
       mode = 'markers',
-      marker = list(symbol = 'square', size = 9.25),
+      marker = list(symbol = 'square', size = 9.75),
       y = ~ (-row),
       x = ~ col,
-      color = as.formula(paste0("~", proj_rate)),
+      color = if (absolute == TRUE) as.formula(paste0("~", proj_rate)) else as.formula(paste0("~", paste0(proj_rate, "_prop_b"))),
       colors = "YlOrRd",
       hoverinfo = "text",
       text = ~ paste0("Borough: ", name, "<br>", 
@@ -78,64 +78,31 @@ vis_adopt_proj <- function(proj_rate) {
       data = adopt_proj_polygon,
       size = I(1),
       fill = I("transparent"),
-      color = I("black")
+      color = I("black"),
+      hoverinfo = 'skip'
     ) %>%
     # customize legend 
     colorbar(
-      limits = c(0,7050), 
-      title = "<b>No. of Heat Pumps",
-      orientation = "h", 
-      len = 1
+      limits = if (absolute == TRUE) c(0,7050) else c(0,0.5), 
+      title = if (absolute == TRUE) "<b>No. of Heat Pumps</b>" else "<b>Prop. w/ Heat Pumps</b>",
+      orientation = 'h',
+      len = 0.85
     ) %>%
     # layout adjustments
     layout( 
-      xaxis = list(title = NULL),
-      yaxis = list(title = NULL),
+      xaxis = list(title = ""),
+      yaxis = list(title = "", fixedrange = FALSE, showgrid = FALSE, showline = FALSE, showticklabels = FALSE),
       showlegend = FALSE,
-      autosize = FALSE,
+      autosize = TRUE,
+      plot_bgcolor = '#D8DEE9',
+      paper_bgcolor = '#D8DEE9',
       width = 625,
       height = 625,
-      plot_bgcolor = '#D8DEE9',
-      paper_bgcolor = '#D8DEE9'
-      #margin = list(l = 0, r = 0, b = 0, t = 0, pad = 1)
+      margin = list(l = 0, r = 0, b = 0, t = 0, pad = 0)
     )
   
   return(adopt_proj_plotly)
   
 }
 
-# Write another function to subset data based on scenarios and create bar plots/tables
-vis_state_barplot <- function(proj_rate) {
-  
-  ## Subset data based on projected rate
-  selected_proj_rate <- 
-    adopt_proj %>%
-    dplyr::select(name, proj_rate) %>%
-    mutate(name = str_trim(str_remove(name, "Borough|City and Borough|Census Area|Municipality")))
-
-  ## Rank boroughs by outcome
-  borough_projs_top5 <- 
-    selected_proj_rate %>%
-    mutate(name = fct_reorder(name, !!sym(proj_rate))) %>%
-    arrange(desc(name)) %>%
-    slice_head(n = 5)
-  
-  
-  ## Plotly bar plot  
-  plot_ly(
-    data = borough_projs_top5,
-    x = as.formula(paste0("~", proj_rate)),
-    y = ~ name
-  ) %>%
-    layout( 
-      yaxis = list(title = ""),
-      height = 220
-    )
-  
-}
-
-
-
-
-
-
+vis_adopt_proj(proj_rate = "hp_15p")

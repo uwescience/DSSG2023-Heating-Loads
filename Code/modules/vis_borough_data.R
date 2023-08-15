@@ -9,7 +9,8 @@ borough_projs_final <-
   borough_projs %>% 
   rename(name = census_area,
          NPV = NPV_weighted2,
-         CO2_lbs_saved = CO2_lbs_saved_weighted2) %>%
+         CO2_lbs_saved = CO2_lbs_saved_weighted2,
+         CO2_driving_miles_saved = CO2_driving_miles_saved_weighted2) %>%
   mutate(
     name = case_when(name == "Wade Hampton Census Area" ~ "Kusilvak Census Area",
                      name == "Anchorage municipality" ~ "Anchorage Municipality",
@@ -63,31 +64,35 @@ vis_borough_proj <- function(outcome = "NPV",
   if (outcome == "NPV") {
     
       customize_input$hover_text <- ~ paste("Borough:", name, "<br>Net Present Value:", round(NPV))
-      customize_input$main_title <- '<b>Average Cost Savings from Heat Pump Installation by Borough'
-      customize_input$legend_title <- "<b>Cost-Effectiveness</b>\n<i>Net Present Value"
+      customize_input$legend_title <- "<b>Cost-Effectiveness</b>\n<i>Net Present Value</i>"
       customize_input$palette <- "RdBu"
       customize_input$limit <- c(-20000, 20000)
       
     } else if (outcome == "CO2_lbs_saved") {
     
       customize_input$hover_text <- ~ paste("Borough:", name, "<br>CO2 Saved:", round(CO2_lbs_saved), "lbs")
-      customize_input$main_title <- '<b>Average Pounds of Carbon Dioxide Saved from Heat Pumps Per Household'
-      customize_input$legend_title <- "<b>CO2 Saved (lbs)"
+      customize_input$legend_title <- "<b>CO2 Saved<br>(lbs)</b>"
+      customize_input$palette <- "YlGn"
+      customize_input$limit <- NULL
+    
+    } else if (outcome == "CO2_driving_miles_saved") {
+      
+      customize_input$hover_text <- ~ paste("Borough:", name, "<br>CO2 Saved:", round(CO2_driving_miles_saved), "driving miles")
+      customize_input$legend_title <- "<b>CO2 Saved<br>(in Driving Miles)</b>"
       customize_input$palette <- "YlGn"
       customize_input$limit <- NULL
       
     } else if (outcome == "Heating_Days_Covered") {
       
-      customize_input$hover_text <- ~ paste("Borough:", name, "<br>Heating Days Covered:", round(Heating_Days_Covered), "days")
-      customize_input$main_title <- '<b>Average Heating Days Covered by Heat Pump by Borough'
-      customize_input$legend_title <- '<b>Heating Days Covered'
+      customize_input$hover_text <- ~ paste0("Borough: ", name, "<br>Heating Days Covered: ", round(Heating_Days_Covered, 3)*100, "%")
+      customize_input$legend_title <- '<b>% of Heating Days Covered</b>'
       customize_input$palette <- "YlOrRd"
       customize_input$limit <- c(min(borough_projs_final$Heating_Days_Covered), max(borough_projs_final$Heating_Days_Covered))
       
     }
   
   ## Make tilegram
-  borough_proj_plotly <- 
+  borough_proj_tilegram <- 
     # create a plotly object 
     plot_ly() %>%
     # add the scatter layer 
@@ -108,30 +113,30 @@ vis_borough_proj <- function(outcome = "NPV",
       data = borough_projs_polygon,
       size = I(1),
       fill = I("transparent"),
-      color = I("black")
+      color = I("black"),
+      hoverinfo = 'skip'
     ) %>%
     # customize legend 
     colorbar(
       limits = customize_input$limit,
       title = customize_input$legend_title,
-      orientation = "h", 
-      len = 1
+      orientation = 'h',
+      len = 0.85
     ) %>%
     # layout adjustments
     layout( 
-      title = customize_input$main_title,
-      xaxis = list(title = NULL),
-      yaxis = list(title = NULL),
+      xaxis = list(title = ""),
+      yaxis = list(title = "", fixedrange = FALSE, showgrid = FALSE, showline = FALSE, showticklabels = FALSE),
       showlegend = FALSE,
-      autosize = F,
+      autosize = TRUE,
+      plot_bgcolor = '#D8DEE9',
+      paper_bgcolor = '#D8DEE9',
       width = 625,
       height = 625,
-      plot_bgcolor = '#D8DEE9',
-      paper_bgcolor = '#D8DEE9'
-      #margin = list(l = 30, r = 1, b = 1, t = 75, pad = 3)
+      margin = list(l = 0, r = 0, b = 0, t = 0, pad = 0)
     )
   
-  return(borough_proj_plotly)
+  return(borough_proj_tilegram)
   
 }
 
@@ -148,63 +153,53 @@ vis_borough_barplot <- function(outcome = "NPV",
       Rebate_dol == !!Rebate_dol &
         Fuel_Esc_Rate == !!Fuel_Esc_Rate &
         Temp_Projection == !!Temp_Projection
-    )
+    ) %>%
+    mutate(name = str_trim(str_remove(name, "Borough|City and Borough|Census Area|Municipality")))
   
   ## Rank boroughs by outcome
-  borough_projs_top10 <- 
-    borough_projs_subset %>%
-    mutate(name = str_trim(str_remove(name, "Borough|City and Borough|Census Area|Municipality"))) %>%
-    mutate(name = fct_reorder(name, !!sym(outcome))) %>%
-    arrange(desc(name)) %>%
-    slice_head(n = 10)
+  if (outcome == "Heating_Days_Covered") {
     
-
+    ## for Heating_Days_Covered, get bottom 10 boroughs
+    borough_projs_top <- 
+      borough_projs_subset %>%
+      mutate(name = fct_reorder(name, !!sym(outcome))) %>%
+      arrange(desc(name)) %>%
+      slice_tail(n = 10)
+    
+  } else if (outcome == "NPV") {
+    
+    borough_projs_top <- 
+      borough_projs_subset %>%
+      mutate(name = fct_reorder(name, !!sym(outcome))) %>%
+      arrange(desc(name)) %>%
+      slice_head(n = 10)
+    
+  } else if (outcome %in% c("CO2_lbs_saved", "CO2_driving_miles_saved")) {
+    
+    borough_projs_top <- 
+      borough_projs_subset %>%
+      mutate(name = fct_reorder(name, !!sym(outcome))) %>%
+      arrange(desc(name)) 
+  }
+  
   ## Plotly bar plot  
-  plot_ly(
-    data = borough_projs_top10,
-    x = as.formula(paste0("~", outcome)),
-    y = ~ name
-  ) %>%
+  borough_proj_barplot <- 
+    plot_ly(
+      data = borough_projs_top,
+      x = as.formula(paste0("~", outcome)),
+      y = ~ name
+    ) %>%
     layout( 
+      xaxis = if (outcome == "Heating_Days_Covered") list(range = c(0.6, 1), title = "% of Heating Days Covered"),
       yaxis = list(title = ""),
-      height = 250
-  )
+      height = if (outcome %in% c("CO2_lbs_saved", "CO2_driving_miles_saved")) 450 else 205,
+      plot_bgcolor = '#D8DEE9',
+      paper_bgcolor = '#D8DEE9',
+      margin = list(l = 0, r = 0, b = 0, t = 0, pad = 0)
+    )
+  
+  return(borough_proj_barplot)
 
 }
 
-## Write another function to subset data based on scenarios and create bar plots/tables
-vis_borough_bartable <- function(outcome = "NPV", 
-                                 Rebate_dol = "current", 
-                                 Fuel_Esc_Rate = "current", 
-                                 Temp_Projection = "current") {
-  
-  ## Subset data based on combination of 3x3x3 projections 
-  borough_projs_subset <- 
-    borough_projs_toy %>%
-    filter(
-      Rebate_dol == !!Rebate_dol &
-        Fuel_Esc_Rate == !!Fuel_Esc_Rate &
-        Temp_Projection == !!Temp_Projection
-    )
-  
-  ## Make table
-  borough_proj_table <- 
-    plot_ly() %>%
-    # add the scatter layer 
-    add_trace(
-      data = borough_projs_subset,
-      type = "table",
-      header = list(
-        values = c("<b>Boroughs</b>", outcome)),
-      cells = list(
-        values = list(c(borough_projs_subset$name),c(round(borough_projs_subset[,outcome])))) # this needs to be changed, as the borough_projs_subset[,outcome] callresults in list of 1
-    )
-  
-  return(borough_proj_table)
-  
-}
-
-# need to add another bar plot function here
-
-
-
+#vis_borough_barplot(outcome = "CO2_lbs_saved")
