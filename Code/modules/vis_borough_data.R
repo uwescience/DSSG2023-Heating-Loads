@@ -11,20 +11,18 @@ borough_projs_final <-
          NPV = NPV_weighted2,
          CO2_lbs_saved = CO2_lbs_saved_weighted2,
          CO2_driving_miles_saved = CO2_driving_miles_saved_weighted2) %>%
-  mutate(
-    name = case_when(name == "Wade Hampton Census Area" ~ "Kusilvak Census Area",
-                     name == "Anchorage municipality" ~ "Anchorage Municipality",
-                     TRUE ~ name),
-    Rebate_dol = case_when(Rebate_dol == 0 ~ "current",
-                           Rebate_dol == 2000 ~ "mid",
-                           Rebate_dol == 4000 ~ "high"),
-    Fuel_Esc_Rate = case_when(Fuel_Esc_Rate == 0.03 ~ "current",
-                              Fuel_Esc_Rate == 0.06 ~ "mid",
-                              Fuel_Esc_Rate == 0.09 ~ "high"),
-    Temp_Projection = case_when(Temp_Projection == 0 ~ "current",
-                                Temp_Projection == 1.5 ~ "mid",
-                                Temp_Projection == 3 ~ "high")
-  ) 
+  mutate(name = case_when(name == "Wade Hampton Census Area" ~ "Kusilvak Census Area",
+                          name == "Anchorage municipality" ~ "Anchorage Municipality",
+                          TRUE ~ name),
+         Rebate_dol = case_when(Rebate_dol == 0 ~ "current",
+                                Rebate_dol == 2000 ~ "mid",
+                                Rebate_dol == 4000 ~ "high"),
+         Fuel_Esc_Rate = case_when(Fuel_Esc_Rate == 0.03 ~ "current",
+                                  Fuel_Esc_Rate == 0.06 ~ "mid",
+                                  Fuel_Esc_Rate == 0.09 ~ "high"),
+         Temp_Projection = case_when(Temp_Projection == 0 ~ "current",
+                                     Temp_Projection == 1.5 ~ "mid",
+                                     Temp_Projection == 3 ~ "high")) 
 
 ## Write a function to subset data based on scenarios and visualize tilegram
 vis_borough_proj <- function(outcome = "NPV", 
@@ -35,11 +33,9 @@ vis_borough_proj <- function(outcome = "NPV",
   ## Subset data based on combination of 3x3x3 projections 
   borough_projs_subset <- 
     borough_projs_final %>%
-    filter(
-      Rebate_dol == !!Rebate_dol &
-      Fuel_Esc_Rate == !!Fuel_Esc_Rate &
-      Temp_Projection == !!Temp_Projection
-    )
+    filter(Rebate_dol == !!Rebate_dol &
+             Fuel_Esc_Rate == !!Fuel_Esc_Rate &
+              Temp_Projection == !!Temp_Projection)
   
   ## Merge adoption data w/ tilegram layout (from 'make_tilegram.R')
   borough_projs_df <- merge(borough_projs_subset, all_grids, by = 'name')
@@ -79,7 +75,7 @@ vis_borough_proj <- function(outcome = "NPV",
       
       customize_input$hover_text <- ~ paste("Borough:", name, "<br>CO2 Saved:", round(CO2_driving_miles_saved), "driving miles")
       customize_input$legend_title <- "<b>CO2 Saved<br>(in Driving Miles)</b>"
-      customize_input$palette <- "YlGn"
+      customize_input$palette <- "BuGn"
       customize_input$limit <- NULL
       
     } else if (outcome == "Heating_Days_Covered") {
@@ -131,8 +127,8 @@ vis_borough_proj <- function(outcome = "NPV",
       autosize = TRUE,
       plot_bgcolor = '#D8DEE9',
       paper_bgcolor = '#D8DEE9',
-      width = 625,
-      height = 625,
+      width = 650,
+      height = 650,
       margin = list(l = 0, r = 0, b = 0, t = 0, pad = 0)
     )
   
@@ -149,12 +145,13 @@ vis_borough_barplot <- function(outcome = "NPV",
   ## Subset data based on combination of 3x3x3 projections
   borough_projs_subset <-
     borough_projs_final %>%
-    filter(
-      Rebate_dol == !!Rebate_dol &
-        Fuel_Esc_Rate == !!Fuel_Esc_Rate &
-        Temp_Projection == !!Temp_Projection
-    ) %>%
+    filter(Rebate_dol == !!Rebate_dol &
+             Fuel_Esc_Rate == !!Fuel_Esc_Rate &
+              Temp_Projection == !!Temp_Projection) %>%
     mutate(name = str_trim(str_remove(name, "Borough|City and Borough|Census Area|Municipality")))
+  
+  ## customize data and input 
+  customize_input <- list()
   
   ## Rank boroughs by outcome
   if (outcome == "Heating_Days_Covered") {
@@ -166,6 +163,9 @@ vis_borough_barplot <- function(outcome = "NPV",
       arrange(desc(name)) %>%
       slice_tail(n = 10)
     
+    customize_input$xaxis <- list(range = c(0.55, 0.95), title = "% of Heating Days Covered")
+    customize_input$height <- 205
+    
   } else if (outcome == "NPV") {
     
     borough_projs_top <- 
@@ -174,12 +174,17 @@ vis_borough_barplot <- function(outcome = "NPV",
       arrange(desc(name)) %>%
       slice_head(n = 10)
     
+    customize_input$height <- 205
+    
   } else if (outcome %in% c("CO2_lbs_saved", "CO2_driving_miles_saved")) {
     
     borough_projs_top <- 
       borough_projs_subset %>%
       mutate(name = fct_reorder(name, !!sym(outcome))) %>%
       arrange(desc(name)) 
+    
+    customize_input$xaxis <- list(title = ifelse(outcome == "CO2_lbs_saved", "CO2 saved (in lbs)", "CO2 saved (driving miles)"))
+    customize_input$height <- 450
   }
   
   ## Plotly bar plot  
@@ -190,9 +195,9 @@ vis_borough_barplot <- function(outcome = "NPV",
       y = ~ name
     ) %>%
     layout( 
-      xaxis = if (outcome == "Heating_Days_Covered") list(range = c(0.6, 1), title = "% of Heating Days Covered"),
+      xaxis = customize_input$xaxis,
       yaxis = list(title = ""),
-      height = if (outcome %in% c("CO2_lbs_saved", "CO2_driving_miles_saved")) 450 else 205,
+      height = customize_input$height,
       plot_bgcolor = '#D8DEE9',
       paper_bgcolor = '#D8DEE9',
       margin = list(l = 0, r = 0, b = 0, t = 0, pad = 0)
@@ -202,4 +207,4 @@ vis_borough_barplot <- function(outcome = "NPV",
 
 }
 
-#vis_borough_barplot(outcome = "CO2_lbs_saved")
+

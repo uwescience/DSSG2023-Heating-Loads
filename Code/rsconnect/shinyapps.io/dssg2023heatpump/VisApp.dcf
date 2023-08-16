@@ -5,7 +5,7 @@ account: dssg2023heatpump
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9602329
-bundleId: 7571308
+bundleId: 7575885
 url: https://dssg2023heatpump.shinyapps.io/VisApp/
 version: 1
 asMultiple: FALSE

@@ -96,8 +96,8 @@ vis_adopt_proj <- function(proj_rate, absolute = TRUE) {
       autosize = TRUE,
       plot_bgcolor = '#D8DEE9',
       paper_bgcolor = '#D8DEE9',
-      width = 625,
-      height = 625,
+      width = 650,
+      height = 650,
       margin = list(l = 0, r = 0, b = 0, t = 0, pad = 0)
     )
   
