@@ -40,10 +40,6 @@ Katherine received her B.S. in Psychology from Boston College, then spent four y
 Silas Gifford believes in the transformative power of data science for new fields and applications and is particularly interested in the intersection of the environment, society, and machine learning. Since summer 2021, Silas has been working on a proof of concept project for monitoring seals at Point Reyes National Seashore using deep learning and aerial imagery. Silas is a Golden Bear through and through, having completed an undergraduate degree in Data Science at UC Berkeley and is now working towards a Master of Information and Data Science degree from the School of Information.
 
 
-
-Roles or Contributions (optional, only if it makes sense to your team)
-
-Where readers can find more details about the project, e.g. code, data, reports, etc.
-
-Acknowledgements
+## Acknowledgements
+The fellows thank project lead Erin Trochim, project data scientist Madelyn Gaumer, as well as Anissa Tanweer, Bernease Herman, Dharma Dailey, Jenny Holcomb, Sarah Stone and the rest of the E-Science staff for supporting their work this summer. We also thank the other fellows Kimberly Kreiss, Maia Powell, Aanchal Setia, and Violet Huang for their valuable input. And of course, this project could not have been possible without our project stakeholders and contributors, including Alan Mitchell (Analysis North), Tom Marsik and Phylicia Cicilio (University of Alaska Fairbanks), Andy Romanoff (Alaska Heat Smart), Jimmy Ord and Michael Spencer (Alaska Housing Finance Corporation). 
 
