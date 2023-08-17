@@ -11,8 +11,12 @@ This branch contains scripts to produce project visualizations, including the Al
 * modules/vis_state_data.R: creates tilegram for state-level adoption outcomes
 * www/theme.R: sets theme for Shiny app
 
-## Supporting files
-
 ## Technologies
 
+Visualizations were created in R with:
+* dashboard: shinydashboard (version 0.7.2)
+* tilegrams: geofacet (version 0.2.0), plotly (version 4.10.2)
+
 ## Setup
+
+Required packages are included at the beginning of each code file.
