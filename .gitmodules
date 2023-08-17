@@ -1,3 +1,0 @@
-[submodule "data_submodule/Heating_Loads_Data_2023"]
-	path = data_submodule/Heating_Loads_Data_2023
-	url = git@github.com:mgaumer/Heating_Loads_Data_2023.git
