@@ -14,5 +14,5 @@ While the focus on interactive exploration in our dashboard allows users to come
 
 Our work is a blueprint that can be expanded upon. This blueprint is outlined below.
 
-<img src="{{ site.url }}{{ site.baseurl }}/assets/img/Blueprint.jpg"  style="height:400px;">
+<img src="{{ site.url }}{{ site.baseurl }}/assets/img/Blueprint.jpg"  style="height:800px;">
 
