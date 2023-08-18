@@ -119,12 +119,12 @@ panhandle_grids <- rbind(ketch_grid, prince_grid, sitka_grid, wrangell_grid, pet
                          valdez_grid) 
 
 ## Make all coordinates positive
-# min(panhandle_grids$row)
-# min(panhandle_grids$col)
+min(panhandle_grids$row)
+min(panhandle_grids$col)
 panhandle_grids$row <- panhandle_grids$row + 11
 panhandle_grids$col <- panhandle_grids$col + 12
 
-## View resulting grid
+## Optional - view resulting panhandle grid
 # geofacet::grid_preview(panhandle_grids)
 
 ### Non-panhandle
@@ -327,13 +327,13 @@ all_grids <- rbind(panhandle_grids,
                    ale_east_grid, ale_west_grid, kodiak_grid)
 
 ## Make all coordinates positive
-#min(all_grids$row)
-#min(all_grids$col)
+min(all_grids$row)
+min(all_grids$col)
 all_grids$row <- all_grids$row + 23
 all_grids$col <- all_grids$col + 34
 
 ## View resulting grid
-# geofacet::grid_preview(all_grids)
+geofacet::grid_preview(all_grids)
 
 
 
