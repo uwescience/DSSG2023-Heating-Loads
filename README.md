@@ -4,5 +4,5 @@ Notebooks using different units of analysis to clean and subset temperature data
 * Census Blocks: `extractTempByBlockstoCSV.ipynb`
 * Places: `extractTempByPlaces.ipynb`
   
-Code for extracting temperature using hexagons
+Notebook for extracting temperature using hexagons.
 * Hex: `extractTempByHex.ipynb`
