@@ -1,0 +1,29 @@
+name: temp
+channels:
+  - defaults
+dependencies:
+  - blas=1.0
+  - ca-certificates=2023.05.30
+  - intel-openmp=2023.1.0
+  - libcxx=14.0.6
+  - libffi=3.4.4
+  - mkl=2023.1.0
+  - mkl-service=2.4.0
+  - mkl_fft=1.3.6
+  - mkl_random=1.2.2
+  - ncurses=6.4
+  - numpy=1.25.2
+  - numpy-base=1.25.2
+  - openssl=3.0.10
+  - pip=23.2.1
+  - python=3.9.17
+  - readline=8.2
+  - setuptools=68.0.0
+  - sqlite=3.41.2
+  - tbb=2021.8.0
+  - tk=8.6.12
+  - tzdata=2023c
+  - wheel=0.38.4
+  - xz=5.4.2
+  - zlib=1.2.13
+prefix: /Users/Maddie/anaconda3/envs/temp
