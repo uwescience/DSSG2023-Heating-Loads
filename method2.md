@@ -25,7 +25,7 @@ The Calculator is a powerful and flexible tool, yet we observe two problems in i
 
 We revise the source code of the Calculator and perform simulations across different scenarios. All the code and associated changes are documented on our [GitHub repository](https://github.com/uwescience/DSSG2023-Heating-Loads/tree/heatPumpCal).
 
-Moreover, the estimates coming from the Calculator are at a building level. To make them more relevant from a policy perspective, we need to aggregate the results to a community level that is meaningful. We choose to aggregate the estimates to a borough level because we believe it is the most policy relevant unit. Please read our [`Analyses`](https://uwescience.github.io/DSSG2023-Heating-Loads/method3/) section for more information. 
+Moreover, the estimates coming from the Calculator are at a building level. To make them more relevant from a policy perspective, we need to aggregate the results to a community level that is meaningful. We choose to aggregate the estimates to a borough level because we believe it is the most policy relevant unit. Please read our [Analyses](https://uwescience.github.io/DSSG2023-Heating-Loads/method3/) section for more information. 
 
 Below is the diagram of our workflow in deconstructing and improving on the Calculator, highlighting our contributions in yellow: 
 
@@ -42,5 +42,5 @@ To imagine what heat pump distribution could look like across the state of Alask
 
 ## Visualization tools
 
-Our work was completed primarily in Python with interactive visual displays created in R. Python code was developed in Jupyter Notebooks and documented on our [GitHub repository](https://github.com/uwescience/DSSG2023-Heating-Loads/). We used `Shiny` and `plotly` packages in R to develop our interactive visual tool, which is hosted on `shinyapps.io/` (see more in the _Visualization_ part of our [`Analyses`](https://uwescience.github.io/DSSG2023-Heating-Loads/method3/) section. 
+Our work was completed primarily in Python with interactive visual displays created in R. Python code was developed in Jupyter Notebooks and documented on our [GitHub repository](https://github.com/uwescience/DSSG2023-Heating-Loads/). We used `Shiny` and `plotly` packages in R to develop our interactive visual tool, which is hosted on `shinyapps.io/` (see more in the _Visualization_ part of our [Analyses](https://uwescience.github.io/DSSG2023-Heating-Loads/method3/) section. 
 
