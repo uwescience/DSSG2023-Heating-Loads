@@ -27,6 +27,11 @@ We revise the source code of the Calculator and perform simulations across diffe
 
 Moreover, the estimates coming from the Calculator are at a building level. To make them more relevant from a policy perspective, we need to aggregate the results to a community level that is meaningful. We choose to aggregate the estimates to a borough level because we believe it is the most policy relevant unit. Please read our [`Analyses`](https://uwescience.github.io/DSSG2023-Heating-Loads/method3/) section for more information. 
 
+Below is the diagram of our workflow in deconstructing and improving on the Calculator, highlighting our contributions in yellow: 
+
+<img src="{{ site.url }}{{ site.baseurl }}/assets/img/deconstructing the hp calc.png"  style="height:600px;">
+
+
 ## Google Earth Engine
 
 GEE is a cloud-based geospatial analysis platform that enabled us to integrate, analyze, and visualize satellite images of Alaska via the Python API. GEE’s data catalog includes ERA5 data. We worked primarily with daily aggregates to create 10 year averages (2010 to 2019) of the maximum, minimum, and mean daily temperatures for each unit of analysis. In some cases, we also pulled hourly 10 year averages. We first obtained temperature data from the [land-specific dataset](https://developers.google.com/earth-engine/datasets/catalog/ECMWF_ERA5_LAND_DAILY_AGGR) because the land data has the highest resolution. If temperature data was unavailable for a specific region, we then drew from the [general ERA5 data](https://developers.google.com/earth-engine/datasets/catalog/ECMWF_ERA5_DAILY) which covers the whole world at a lower resolution. 
