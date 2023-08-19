@@ -7,8 +7,8 @@ This consists of 3 folders that describe the process in our workflow shown in th
 2. Statewide Adoption
 3. Visualization
 
-Borough Potential
-`exploreClimateChange.ipynb`:
+Borough Potential\n
+`exploreClimateChange.ipynb`: Notebook contains code for explring temperature data
 HeatPumpCalculator: This is the main engine of our project. The folder contains all codes on how our estimates are gotten
 `weightBoroughEstimates.ipynb`: The estimates gotten from the heatpump calculator after several simulations are weighted by Borough here
 
