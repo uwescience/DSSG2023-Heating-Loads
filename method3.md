@@ -5,7 +5,7 @@ title: Analyses
 
 ## Workflow 
 
-
+<img src="{{ site.url }}{{ site.baseurl }}/assets/img/deconstructing the hp calc.png"  style="height:400px;">
 
 ## Adoption
 
