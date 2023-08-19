@@ -27,10 +27,17 @@ The heat pump calculator only gives estimates for a building in a city. To get b
 
 We created an online, interactive dashboard using R Shiny as our visualization product. The primary map-based visualizations featured on the dashboard are tilegrams. Tilegrams, short for tiled cartogram, are tiled maps where regions are sized proportional to some variable other than geographic area. We used a tilegram created originally by the Alaska Department of Labor and Workforce Development that distorts Alaska’s boroughs according to population. This tilegram accurately represents population data while still retaining the familiar Alaskan shape. Our visualizations emphasize population over geographic area because people adopt heat pumps, not land. Our visualizations communicate in which areas heat pump adoption is feasible and the scaling according population allows viewers to understand where heat pumps maximize economic and environmental impacts. Furthermore, scaling area by population prompts viewers to think about  the economies of scale in heat pump adoption – that vast space with little people makes adoption more difficult. 
 
+Below is a tilegram representation of Alaska, which is reproduced from Department of Labor and Workforce Development, Research and Analysis: 
+
+<img src="{{ site.url }}{{ site.baseurl }}/assets/img/ak_tilegram.jpg"  style="height:600px;">
+
 While we ultimately decided to use tilegrams, there were other visualization methods that we considered. Here is a short discussion of these methods and how they address the tension between geographic area and population.
-Traditional choropleth maps. These maps preserve space and thus may overemphasize areas with low population density. 
-Cartograms. A cartogram that distorts area according to population can be disorienting and distracting to viewers. The distortion of a traditional cartogram is less visually pleasing than the distortion of tilegrams.
-Geo-faceted graph. These graphs remove the relative size of geographic area by making each region a single comparable icon. This choice effectively eliminates discussions of both geographic area and population.
+
+- Traditional choropleth maps: These maps preserve space and thus may overemphasize areas with low population density. 
+
+- Cartograms: A cartogram that distorts area according to population can be disorienting and distracting to viewers. The distortion of a traditional cartogram is less visually pleasing than the distortion of tilegrams.
+
+- Geo-faceted graph: These graphs remove the relative size of geographic area by making each region a single comparable icon. This choice effectively eliminates discussions of both geographic area and population.
 
 We believe our choice addresses the tension between land and population and is the most visually pleasing. However, we understand that it can be difficult for audiences to orient themselves while looking at a tilegram for the first time, so we start by presenting a traditional map of Alaska next to a blank version of the tilegram. This allows users to orient themselves geographically and get a better understanding of how population in Alaska is distributed before they look at our visualizations with information about heat pumps.
 
