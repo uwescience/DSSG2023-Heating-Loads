@@ -37,5 +37,5 @@ To imagine what heat pump distribution could look like across the state of Alask
 
 ## Visualization tools
 
-Our work was completed primarily in `Python` with interactive visual displays created in `R`. Python code was developed in Jupyter Notebooks and documented on our [GitHub repository](https://github.com/uwescience/DSSG2023-Heating-Loads/). For our interactive visual tool, we used `Shiny` and `plotly` in `R` (see more in the _Visualization_ part of our [`Analyses`](https://uwescience.github.io/DSSG2023-Heating-Loads/method3/ section). 
+Our work was completed primarily in Python with interactive visual displays created in R. Python code was developed in Jupyter Notebooks and documented on our [GitHub repository](https://github.com/uwescience/DSSG2023-Heating-Loads/). We used `Shiny` and `plotly` packages in R to develop our interactive visual tool, which is hosted on `shinyapps.io/` (see more in the _Visualization_ part of our [`Analyses`](https://uwescience.github.io/DSSG2023-Heating-Loads/method3/) section. 
 
