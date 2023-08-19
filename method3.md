@@ -7,6 +7,8 @@ title: Analyses
 
 <img src="{{ site.url }}{{ site.baseurl }}/assets/img/Blueprint.jpg"  style="height:600px;">
 
+Our project was comprised of two parallel workflows. The first explores statewide adoption and makes unchanging assumptions about the world we live in today. For adoption, we’re interested in knowing where heat pumps are now, where they will likely be in the future, in quantifying the opportunity gap between the two. Our second goal is borough potential and is associated with changing and interacting assumptions. Here, we investigate heat pump potential given different fossil fuel price scenarios, government subsidies, and varying levels of climate change.
+
 ## Aggregation
 
 We chose to aggregate temperature data by Census blocks for our estimation. We pursue aggregation because it enables us to discuss the results and draw policy conclusions in interpretable units of analysis. Also, it reduces the load of computation as we don’t have to conduct simulations across tens of thousands of ERA5 raster points. 
