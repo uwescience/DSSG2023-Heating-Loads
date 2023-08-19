@@ -3,13 +3,9 @@ layout: page
 title: Analyses
 ---
 
-## Aggregation
+## Workflow 
 
-We chose to aggregate temperature data by Census blocks for our estimation. We pursue aggregation because it enables us to discuss the results and draw policy conclusions in interpretable units of analysis. Also, it reduces the load of computation as we don’t have to conduct simulations across tens of thousands of ERA5 raster points. 
- 
-Blocks are the smallest unit of observation that partitions Alaska into 28,568 non-overlapping units with an average size of 11 households per block. This provides us with a unit of observation that matches with the granularity of our ERA5 temperature data. We can easily aggregate blocks into bigger administrative units, such as boroughs, because they all have interoperable identification codes (FIPS). Therefore, our workflow will allow analysis at each of the different levels of administrative boundaries. Due to our focus on macro-trends, our visualizations primarily present borough-level analyses, but we do show an analysis of the blocks within the borough of Juneau as a case study. 
 
-There are many ways to reduce raster temperature data according to other vectors. H3 (Hexagonal hierarchical geospatial indexing system) is an alternative option we considered. Its chief advantage is that “indexed data can be quickly joined across disparate datasets and aggregated at different levels of precision” with different resolutions of hexagons. However, we chose not to pursue this approach because hexagons are not socio-politically meaningful to wide audiences and create additional complications compared to census units. 
 
 ## Adoption
 
@@ -37,3 +33,13 @@ Cartograms. A cartogram that distorts area according to population can be disori
 Geo-faceted graph. These graphs remove the relative size of geographic area by making each region a single comparable icon. This choice effectively eliminates discussions of both geographic area and population.
 
 We believe our choice addresses the tension between land and population and is the most visually pleasing. However, we understand that it can be difficult for audiences to orient themselves while looking at a tilegram for the first time, so we start by presenting a traditional map of Alaska next to a blank version of the tilegram. This allows users to orient themselves geographically and get a better understanding of how population in Alaska is distributed before they look at our visualizations with information about heat pumps.
+
+
+## Aggregation
+
+We chose to aggregate temperature data by Census blocks for our estimation. We pursue aggregation because it enables us to discuss the results and draw policy conclusions in interpretable units of analysis. Also, it reduces the load of computation as we don’t have to conduct simulations across tens of thousands of ERA5 raster points. 
+ 
+Blocks are the smallest unit of observation that partitions Alaska into 28,568 non-overlapping units with an average size of 11 households per block. This provides us with a unit of observation that matches with the granularity of our ERA5 temperature data. We can easily aggregate blocks into bigger administrative units, such as boroughs, because they all have interoperable identification codes (FIPS). Therefore, our workflow will allow analysis at each of the different levels of administrative boundaries. Due to our focus on macro-trends, our visualizations primarily present borough-level analyses, but we do show an analysis of the blocks within the borough of Juneau as a case study. 
+
+There are many ways to reduce raster temperature data according to other vectors. H3 (Hexagonal hierarchical geospatial indexing system) is an alternative option we considered. Its chief advantage is that “indexed data can be quickly joined across disparate datasets and aggregated at different levels of precision” with different resolutions of hexagons. However, we chose not to pursue this approach because hexagons are not socio-politically meaningful to wide audiences and create additional complications compared to census units. 
+
