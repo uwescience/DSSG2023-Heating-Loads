@@ -7,16 +7,16 @@ This consists of 3 folders that describe the process in our workflow shown in th
 2. Statewide Adoption
 3. Visualization
 
-Borough Potential\n
-`exploreClimateChange.ipynb`: Notebook contains code for explring temperature data
-HeatPumpCalculator: This is the main engine of our project. The folder contains all codes on how our estimates are gotten
-`weightBoroughEstimates.ipynb`: The estimates gotten from the heatpump calculator after several simulations are weighted by Borough here
+Borough Potential
+* `exploreClimateChange.ipynb`: Notebook contains code for explring temperature data
+* HeatPumpCalculator: This is the main engine of our project. The folder contains all codes on how our estimates are gotten
+* `weightBoroughEstimates.ipynb`: The estimates gotten from the heatpump calculator after several simulations are weighted by Borough here
 
 Statewide Adoption
-`exploreDistributionOfHP.ipynb`: This contain codes and method we used to distribute the heatpumps in Alaska
-`getStateEstimates.ipynb`: The estimates from the heatpump calculator simulations can be found here
+* `exploreDistributionOfHP.ipynb`: This contain codes and method we used to distribute the heatpumps in Alaska
+* `getStateEstimates.ipynb`: The estimates from the heatpump calculator simulations can be found here
 
-Visualization
+Visualization /n
 This folder contains all code needed to make the tilegram in our app https://dssg2023heatpump.shinyapps.io/VisApp/
 
 Note: Visualizations are done in RShiny and notebooks are numbered in order
