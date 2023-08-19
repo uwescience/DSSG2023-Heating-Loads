@@ -29,7 +29,7 @@ Moreover, the estimates coming from the Calculator are at a building level. To m
 
 Below is the diagram of our workflow in deconstructing and improving on the Calculator, highlighting our contributions in yellow: 
 
-<img src="{{ site.url }}{{ site.baseurl }}/assets/img/deconstructing the hp calc.png"  style="height:600px;">
+<img src="{{ site.url }}{{ site.baseurl }}/assets/img/deconstructing the hp calc.png">
 
 
 ## Google Earth Engine
