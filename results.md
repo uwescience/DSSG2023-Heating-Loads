@@ -8,7 +8,9 @@ As our primary project deliverable, we built an interactive, accessible, and ope
 
 Three aspects of our visualization tool were central to us as we were designing it. First, it was important to us that the tool is interactive, allowing users to actively engage with how different scenarios affect the visualizations and explore different features of particular interest. Second, we designed our tool to be accessible to a wide range of audiences. While we developed it with a primary audience of policy makers and NGOs in mind, we hope that our tool is accessible to a range of both technical and non-technical audiences. To achieve this, we ensured our visualizations both conveyed the relevant information (for example population rather than geographic space) while remaining clear and easily interpretable, and presented information in multiple presentations styles (e.g., maps, numbers, and bar charts). Finally, it was important to us that both our tool, workflow, and code was freely and easily accessible online. We hope stakeholders interested in contributing to the project can easily access our workflow to build on and extend our project. Ultimately, we hope that this tool will empower policy makers and NGOs to implement policy changes to accelerate the adoption of heat pumps in Alaska.
 
-> "The UW Data Science team did an excellent job developing an app to explore aggregate heat pump adoption scenarios in Alaska. The simple user interface and Tilegram visualizations of results make the application approachable and informative. Many thanks for their contribution to heat pump analysis in Alaska!" - Alan Mitchell, Energy Analyst & Founder of Analysis North
+> "The UW Data Science team did an excellent job developing an app to explore aggregate heat pump adoption scenarios in Alaska. The simple user interface and Tilegram visualizations of results make the application approachable and informative. Many thanks for their contribution to heat pump analysis in Alaska!"
+>
+> - Alan Mitchell, Energy Analyst & Founder of Analysis North
 
 
 ## Findings
