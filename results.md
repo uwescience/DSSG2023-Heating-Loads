@@ -10,7 +10,7 @@ Three aspects of our visualization tool were central to us as we were designing 
 
 > "The UW Data Science team did an excellent job developing an app to explore aggregate heat pump adoption scenarios in Alaska. The simple user interface and Tilegram visualizations of results make the application approachable and informative. Many thanks for their contribution to heat pump analysis in Alaska!"
 >
-> - Alan Mitchell, Energy Analyst & Founder of Analysis North
+> \- Alan Mitchell, Energy Analyst & Founder of Analysis North
 
 
 ## Findings
