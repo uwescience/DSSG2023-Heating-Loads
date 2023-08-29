@@ -296,8 +296,8 @@ server <- function(input, output) {
   output$borough_tilegram_NPV <- renderPlotly({
     
     vis_borough_proj(outcome = "NPV", 
-                     Rebate_dol = input$buttons_fuel, 
-                     Fuel_Esc_Rate = input$buttons_rebate, 
+                     Rebate_dol = input$buttons_rebate, 
+                     Fuel_Esc_Rate = input$buttons_fuel, 
                      Temp_Projection = input$buttons_climate)
     
   })
@@ -305,8 +305,8 @@ server <- function(input, output) {
   output$borough_barplot_NPV <- renderPlotly({
     
     vis_borough_barplot(outcome = "NPV", 
-                        Rebate_dol = input$buttons_fuel, 
-                        Fuel_Esc_Rate = input$buttons_rebate, 
+                        Rebate_dol = input$buttons_rebate, 
+                        Fuel_Esc_Rate = input$buttons_fuel, 
                         Temp_Projection = input$buttons_climate)
     
   })
@@ -315,8 +315,8 @@ server <- function(input, output) {
   output$borough_tilegram_CO2 <- renderPlotly({
     
     vis_borough_proj(outcome = input$buttons_lbs_vs_miles, 
-                     Rebate_dol = input$buttons_fuel, 
-                     Fuel_Esc_Rate = input$buttons_rebate, 
+                     Rebate_dol = input$buttons_rebate, 
+                     Fuel_Esc_Rate = input$buttons_fuel, 
                      Temp_Projection = input$buttons_climate)
     
   })
@@ -324,8 +324,8 @@ server <- function(input, output) {
   output$borough_barplot_CO2 <- renderPlotly({
     
     vis_borough_barplot(outcome = input$buttons_lbs_vs_miles, 
-                        Rebate_dol = input$buttons_fuel, 
-                        Fuel_Esc_Rate = input$buttons_rebate, 
+                        Rebate_dol = input$buttons_rebate, 
+                        Fuel_Esc_Rate = input$buttons_fuel, 
                         Temp_Projection = input$buttons_climate)
     
   })
@@ -334,8 +334,8 @@ server <- function(input, output) {
   output$borough_tilegram_HeatingDays <- renderPlotly({
     
     vis_borough_proj(outcome = "Heating_Days_Covered", 
-                     Rebate_dol = input$buttons_fuel, 
-                     Fuel_Esc_Rate = input$buttons_rebate, 
+                     Rebate_dol = input$buttons_rebate, 
+                     Fuel_Esc_Rate = input$buttons_fuel, 
                      Temp_Projection = input$buttons_climate)
     
   })
@@ -343,8 +343,8 @@ server <- function(input, output) {
   output$borough_barplot_HeatingDays <- renderPlotly({
     
     vis_borough_barplot(outcome = "Heating_Days_Covered", 
-                        Rebate_dol = input$buttons_fuel, 
-                        Fuel_Esc_Rate = input$buttons_rebate, 
+                        Rebate_dol = input$buttons_rebate, 
+                        Fuel_Esc_Rate = input$buttons_fuel, 
                         Temp_Projection = input$buttons_climate)
     
   })
